@@ -9,6 +9,8 @@ interface AccessoryProps {
 }
 
 export function Accessory({name, icon: Icon}: AccessoryProps){
+
+
   return (
     <Container>
       <Icon width={32} height={32} />

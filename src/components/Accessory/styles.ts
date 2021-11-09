@@ -1,10 +1,11 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
+import { RFPercentage } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
-    width: 109px;
+    width: 31.75%;
     height: 92px;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     background-color: ${({ theme }) => theme.colors.background_primary};
     padding: 16px;
