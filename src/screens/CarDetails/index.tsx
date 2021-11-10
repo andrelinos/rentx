@@ -79,7 +79,7 @@ export function CarDetails() {
                 </About>
             </Content>
             <Footer>
-                <Button title="teste"/>
+                <Button title="Confirmar"/>
             </Footer>
         </Container>
     );
