@@ -21,8 +21,8 @@ export const Header = styled.View`
 export const Title = styled.Text`
     color: ${({ theme }) => theme.colors.shape};
     font-family: ${({ theme }) => theme.fonts.secondary_600};
-    font-size: ${RFValue(34)}px;
-    margin-top: 25px;
+    font-size: ${RFValue(32)}px;
+    margin-top: 8px;
 `;
 
 export const RentalPeriod = styled.View`
@@ -30,7 +30,7 @@ export const RentalPeriod = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin: 32px 0;
+    margin: 24px 0;
 `;
 
 export const DateInfo = styled.View`

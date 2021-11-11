@@ -18,6 +18,7 @@ import {
     Content,
     Footer
 } from './styles';
+import { Calendar } from '../../components/Calendar';
 
 export function Scheduling() {
     const theme = useTheme();
@@ -33,7 +34,7 @@ export function Scheduling() {
                 <BackButton onPress={() => {}} color={theme.colors.shape} />
 
                 <Title>
-                    Escolha uma{'\n'}data e início e{'\n'}fim do aluguel
+                    Escolha uma data e início e fim do aluguel
                 </Title>
 
                 <RentalPeriod>
@@ -51,7 +52,9 @@ export function Scheduling() {
                 </RentalPeriod>
             </Header>
 
-            <Content></Content>
+            <Content>
+                <Calendar />
+            </Content>
 
             <Footer>
                 <Button title="Confirmar" />
