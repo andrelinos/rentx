@@ -123,12 +123,33 @@ export const DateValue = styled.Text`
     text-transform: uppercase;
 `;
 
-export const RetalPrice = styled.View``;
+export const RetalPrice = styled.View`
+    width: 100%;
+    margin-top: 16px;
+`;
 
-export const RentalPriceLabel = styled.Text``;
+export const RentalPriceLabel = styled.Text`
+    font-family: ${({ theme }) => theme.fonts.primary_500};
+    color: ${({ theme }) => theme.colors.text_detail};
+    font-size: ${RFValue(10)}px;
+    text-transform: uppercase;
+`;
 
-export const RetalPriceDetails = styled.View``;
+export const RetalPriceDetails = styled.View`
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+`;
 
-export const RentalPriceQuota = styled.Text``;
+export const RentalPriceQuota = styled.Text`
+    font-family: ${({ theme }) => theme.fonts.primary_500};
+    color: ${({ theme }) => theme.colors.title};
+    font-size: ${RFValue(15)}px;
+`;
 
-export const RentalPriceTotal = styled.Text``;
+export const RentalPriceTotal = styled.Text`
+    font-family: ${({ theme }) => theme.fonts.secondary_500};
+    color: ${({ theme }) => theme.colors.success};
+    font-size: ${RFValue(24)}px;
+`;

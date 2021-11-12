@@ -101,7 +101,7 @@ export function SchedulingDetails() {
 
                     <Feather
                         name="chevron-right"
-                        size={RFValue(10)}
+                        size={RFValue(24)}
                         color={theme.colors.text}
                     />
 
@@ -122,7 +122,7 @@ export function SchedulingDetails() {
                 </RetalPrice>
             </Content>
             <Footer>
-                <Button title="Confirmar" />
+                <Button title="Alugar agora" color={theme.colors.success} />
             </Footer>
         </Container>
     );
