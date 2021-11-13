@@ -1,18 +1,36 @@
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
+import BrandSvg from '../../assets/logo_background_gray.svg';
+
+interface BrandLogoProps {
+    width?: number;
+}
 
 export const Container = styled.View`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.header};
-    padding-top: ${RFValue(90)}px;
+    justify-content: center;
+    align-items: center;
+
+`;
+
+export const ContainerContent = styled.View`
+    width: 100%;
+    height: 80%;
+
+`;
+
+export const BrandLogo = styled(BrandSvg)<BrandLogoProps>`
+    position: absolute;
+    z-index: -9;
 `;
 
 export const Content = styled.View`
-    position: absolute;
+    /* position: absolute; */
     justify-content: center;
     align-items: center;
     align-self: center;
-    top: 40%;
+    /* margin-top: 60%; */
 `;
 
 export const Title = styled.Text`
@@ -32,6 +50,6 @@ export const Message = styled.Text`
 `;
 
 export const ButtonContainer = styled.View`
-   width: 80px; 
-   margin-top: ${RFValue(80)}px;
+    width: 80px;
+    margin-top: ${RFValue(40)}px;
 `;
