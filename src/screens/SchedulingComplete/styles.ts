@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
     flex: 1;
     background-color: ${({ theme }) => theme.colors.header};
-    padding-top: 96px;
+    padding-top: ${RFValue(90)}px;
 `;
 
 export const Content = styled.View`
@@ -12,14 +12,14 @@ export const Content = styled.View`
     justify-content: center;
     align-items: center;
     align-self: center;
-    top: 67%;
+    top: 40%;
 `;
 
 export const Title = styled.Text`
     font-size: ${RFValue(30)}px;
     color: ${({ theme }) => theme.colors.shape};
     font-family: ${({ theme }) => theme.fonts.secondary_600};
-    margin-top: 40px;
+    margin-top: ${RFValue(30)}px;
 `;
 
 export const Message = styled.Text`
@@ -28,5 +28,10 @@ export const Message = styled.Text`
     font-family: ${({ theme }) => theme.fonts.primary_400};
     line-height: ${RFValue(25)}px;
     text-align: center;
-    margin-top: 16px;
+    margin-top: ${RFValue(16)}px;
+`;
+
+export const ButtonContainer = styled.View`
+   width: 80px; 
+   margin-top: ${RFValue(80)}px;
 `;

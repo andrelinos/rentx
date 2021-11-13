@@ -1,12 +1,16 @@
 import React from 'react';
 import { StatusBar, useWindowDimensions } from 'react-native';
+import { useTheme } from 'styled-components';
 
 import BrandSvg from '../../assets/logo_background_gray.svg';
 import DoneSvg from '../../assets/done.svg';
+import { Button } from '../../components/Button';
 
-import { Container, Content, Title, Message } from './styles';
+import { Container, Content, Title, Message, ButtonContainer } from './styles';
 
 export function SchedulingComplete() {
+    const theme = useTheme();
+    
     const { width } = useWindowDimensions();
     return (
         <Container>
@@ -27,6 +31,9 @@ export function SchedulingComplete() {
                     RENTX
                     {'\n'}e pegar seu automóvel
                 </Message>
+                <ButtonContainer>
+                <Button title='Ok' color={theme.colors.shape_dark} />
+                </ButtonContainer>
             </Content>
         </Container>
     );
