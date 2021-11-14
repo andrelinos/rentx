@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 
@@ -23,6 +24,12 @@ import { Calendar } from '../../components/Calendar';
 export function Scheduling() {
     const theme = useTheme();
 
+    const navigation = useNavigation();
+
+    function handleConfirmRental() {
+        navigation.navigate('SchedulingDetails');
+    }
+
     return (
         <Container>
             <StatusBar
@@ -33,9 +40,7 @@ export function Scheduling() {
             <Header>
                 <BackButton onPress={() => {}} color={theme.colors.shape} />
 
-                <Title>
-                    Escolha uma data e início e fim do aluguel
-                </Title>
+                <Title>Escolha uma data e início e fim do aluguel</Title>
 
                 <RentalPeriod>
                     <DateInfo>
@@ -57,7 +62,7 @@ export function Scheduling() {
             </Content>
 
             <Footer>
-                <Button title="Confirmar" />
+                <Button title="Confirmar" onPress={handleConfirmRental} />
             </Footer>
         </Container>
     );

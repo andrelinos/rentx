@@ -26,11 +26,10 @@ export const BrandLogo = styled(BrandSvg)<BrandLogoProps>`
 `;
 
 export const Content = styled.View`
-    /* position: absolute; */
     justify-content: center;
     align-items: center;
     align-self: center;
-    /* margin-top: 60%; */
+    margin-top: 60%;
 `;
 
 export const Title = styled.Text`
