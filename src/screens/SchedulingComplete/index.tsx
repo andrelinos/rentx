@@ -1,7 +1,7 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { StatusBar, useWindowDimensions } from 'react-native';
 import { useTheme } from 'styled-components';
-
 
 import DoneSvg from '../../assets/done.svg';
 import { Button } from '../../components/Button';
@@ -18,6 +18,12 @@ import {
 
 export function SchedulingComplete() {
     const theme = useTheme();
+
+    const navigation = useNavigation();
+
+    function handleGoToHome() {
+        navigation.navigate('Home');
+    }
 
     const { width } = useWindowDimensions();
     return (
@@ -37,11 +43,14 @@ export function SchedulingComplete() {
 
                     <Message>
                         Agora você só precisa ir{'\n'}até uma concessionária da
-                        RENTX
-                        {'\n'}e pegar seu automóvel
+                        RENTX{'\n'}e pegar seu automóvel
                     </Message>
                     <ButtonContainer>
-                        <Button title="Ok" color={theme.colors.shape_dark} />
+                        <Button
+                            title="Ok"
+                            color={theme.colors.shape_dark}
+                            onPress={handleGoToHome}
+                        />
                     </ButtonContainer>
                 </Content>
             </ContainerContent>
