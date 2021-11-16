@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
+import api from '../../services/api';
+
 import { Header } from '../../components/Header';
-import { Car } from '../../components/Car';
+import { Car, CarProps } from '../../components/Car';
 
 import { CarsList, Container } from './styles';
 
 export function Home() {
+    const [cars, setCars] = useState();
+    const [loading, setLoading] = useState(true);
+
     const navigation = useNavigation();
 
     const carData = {
@@ -24,6 +29,23 @@ export function Home() {
     function handleCarDetails() {
         navigation.navigate('CarDetails');
     }
+
+    async function fetchCars() {
+        try {
+            const response = await api.get('/cars');
+
+            setCars(response.data);
+            console.log(cars);
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        fetchCars();
+    }, []);
 
     return (
         <Container>

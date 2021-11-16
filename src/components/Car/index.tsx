@@ -27,7 +27,7 @@ interface CardData {
     thumbnail: string;
 }
 
-interface CarProps extends RectButtonProps {
+export interface CarProps extends RectButtonProps {
     data: CardData;
 }
 
