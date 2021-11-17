@@ -1,6 +1,7 @@
 import React from 'react';
-
 import { createStackNavigator } from '@react-navigation/stack';
+
+import { CarDTO } from '../dtos/CarDTO';
 
 import { Home } from '../screens/Home';
 import { CarDetails } from '../screens/CarDetails';
@@ -8,7 +9,15 @@ import { Scheduling } from '../screens/Scheduling';
 import { SchedulingDetails } from '../screens/SchedulingDetails';
 import { SchedulingComplete } from '../screens/SchedulingComplete';
 
-const { Navigator, Screen } = createStackNavigator();
+export type RootStackParamList = {
+    Home: undefined;
+    CarDetails: { car: CarDTO };
+    Scheduling: undefined;
+    SchedulingDetails: undefined;
+    SchedulingComplete: undefined;
+};
+
+const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
 export function StackRoutes() {
     return (

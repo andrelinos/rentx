@@ -9,9 +9,11 @@ export interface CarDTO {
     };
     fuel_type: string;
     thumbnail: string;
-    accessories: {
-        type: string;
-        name: string;
-    }[];
-    photo: string[];
+    accessories: [
+        {
+            type: string;
+            name: string;
+        }
+    ];
+    photos: string[];
 }

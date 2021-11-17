@@ -30,6 +30,10 @@ export function Scheduling() {
         navigation.navigate('SchedulingDetails');
     }
 
+    function handleBack() {
+        navigation.goBack();
+    }
+
     return (
         <Container>
             <StatusBar
@@ -38,7 +42,7 @@ export function Scheduling() {
                 translucent
             />
             <Header>
-                <BackButton onPress={() => {}} color={theme.colors.shape} />
+                <BackButton onPress={handleBack} color={theme.colors.shape} />
 
                 <Title>Escolha uma data e início e fim do aluguel</Title>
 

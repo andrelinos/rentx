@@ -1,17 +1,14 @@
 import React from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
+
+import { CarDTO } from '../../dtos/CarDTO';
+import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 
 import { BackButton } from '../../components/BackButton';
 import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
-
-import speedSvg from '../../assets/speed.svg';
-import accelerationSvg from '../../assets/acceleration.svg';
-import forceSvg from '../../assets/force.svg';
-import gasolineSvg from '../../assets/gasoline.svg';
-import exchangeSvg from '../../assets/exchange.svg';
-import peopleSVG from '../../assets/people.svg';
 
 import {
     Container,
@@ -29,13 +26,23 @@ import {
     About,
     Footer
 } from './styles';
-import { useNavigation } from '@react-navigation/native';
+
+interface Params {
+    car: CarDTO;
+}
 
 export function CarDetails() {
     const navigation = useNavigation();
+    const route = useRoute();
+
+    const { car } = route.params as Params;
 
     function handleConfirmRental() {
         navigation.navigate('Scheduling');
+    }
+
+    function handleBack() {
+        navigation.goBack();
     }
 
     return (
@@ -46,47 +53,49 @@ export function CarDetails() {
                 translucent
             />
             <Header>
-                <BackButton onPress={() => {}} />
+                <BackButton onPress={handleBack} />
             </Header>
             <CarImagesContainer>
-                <ImageSlider
-                    key="1"
-                    imagesUrl={[
-                        'https://st.motortrend.com/uploads/sites/10/2015/11/2016-audi-s5-coupe-premium-plus-coupe-angular-front.png'
-                    ]}
-                />
+                <ImageSlider key={car.id} imagesUrl={car.photos} />
             </CarImagesContainer>
 
             <Content>
                 <Details>
                     <Description>
-                        <Brand>Lamborghini</Brand>
-                        <Name>Huracan</Name>
+                        <Brand>{car.brand}</Brand>
+                        <Name>{car.name}</Name>
                     </Description>
                     <Rent>
-                        <Period>Ao dia</Period>
-                        <Price>R$ 580,00</Price>
+                        <Period>{car.rent.period}</Period>
+                        <Price>{`R$ ${car.rent.price}`}</Price>
                     </Rent>
                 </Details>
 
                 <Accessories>
-                    <Accessory icon={speedSvg} name="380Km/h" />
-                    <Accessory icon={accelerationSvg} name="3.2s" />
-                    <Accessory icon={forceSvg} name="800 HP" />
-                    <Accessory icon={gasolineSvg} name="Gasolina" />
-                    <Accessory icon={exchangeSvg} name="Auto" />
-                    <Accessory icon={peopleSVG} name="2 pessoas" />
-                    <Accessory icon={peopleSVG} name="Teste" />
+                    {car.accessories.map((accessory) => (
+                        <Accessory
+                            key={accessory.type}
+                            name={accessory.name}
+                            icon={getAccessoryIcon(accessory.type)}
+                        />
+                    ))}
+
+                    {/* {car.accessories.map((accessory) => (
+            <Accessory
+              key={accessory.type}
+              name={accessory.name}
+              icon={getAccessoryIcon(accessory.type)}
+            />
+          ))} */}
                 </Accessories>
 
-                <About>
-                    Este é um automóvel desportivo. Surgiu do lendário touro de
-                    lide indultado na praça Real Maestranza de Sevilla. É um
-                    belíssimo caro para quem gosta de acelerar.
-                </About>
+                <About>{car.about}</About>
             </Content>
             <Footer>
-                <Button title="Escolher período do aluguel" onPress={handleConfirmRental} />
+                <Button
+                    title="Escolher período do aluguel"
+                    onPress={handleConfirmRental}
+                />
             </Footer>
         </Container>
     );
