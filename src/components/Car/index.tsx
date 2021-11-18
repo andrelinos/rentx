@@ -35,7 +35,7 @@ export function Car({ data, ...rest }: CarProps) {
                         <Price>{`R$ ${data.rent.price}`}</Price>
                     </Rent>
                     <Type>
-                        <MotorIcon />
+                        <MotorIcon width={20} />
                     </Type>
                 </About>
             </Details>

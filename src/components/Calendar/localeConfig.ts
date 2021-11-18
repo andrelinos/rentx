@@ -1,6 +1,4 @@
-import { LocaleConfig } from 'react-native-calendars';
-
-export const locale = (LocaleConfig.locales['pt-BR'] = {
+const ptBR = {
     monthNames: [
         'Janeiro',
         'Fevereiro',
@@ -40,8 +38,6 @@ export const locale = (LocaleConfig.locales['pt-BR'] = {
     ],
     dayNamesShort: ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'],
     today: 'Hoje'
-  }
-  );
-  
+};
 
-
+export { ptBR };
