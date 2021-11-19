@@ -2,8 +2,8 @@ import React from 'react';
 import {
     Calendar as CustomCalendar,
     LocaleConfig,
-    
-} from 'react-native-calendars';
+    DateCallbackHandler,
+  } from 'react-native-calendars';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
 
@@ -23,7 +23,7 @@ interface MarkedDatesPros {
 
 interface CalendarProps {
     markedDates: MarkedDatesPros;
-    onDayPress: string;
+    onDayPress: DateCallbackHandler;
 }
 
 export function Calendar({ markedDates, onDayPress }: CalendarProps) {
