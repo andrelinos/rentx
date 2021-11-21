@@ -5,7 +5,12 @@ import { useTheme } from 'styled-components';
 
 import { BackButton } from '../../components/BackButton';
 import { Button } from '../../components/Button';
-import { Calendar, DayProps, generateInterval } from '../../components/Calendar';
+import {
+    Calendar,
+    DayProps,
+    generateInterval,
+    MarkedDatesPros
+} from '../../components/Calendar';
 
 import ArrowSvg from '../../assets/arrow.svg';
 
@@ -25,6 +30,9 @@ export function Scheduling() {
     const [lastSelectedDate, setSelectedDate] = useState<DayProps>(
         {} as DayProps
     );
+    const [markedDates, setMarkedDates] = useState<MarkedDatesPros>(
+        {} as MarkedDatesPros
+    );
 
     const theme = useTheme();
     const navigation = useNavigation();
@@ -41,14 +49,16 @@ export function Scheduling() {
         let start = !lastSelectedDate.timestamp ? date : lastSelectedDate;
         let end = date;
 
-        if(start.timestamp > end.timestamp) {
+        if (start.timestamp > end.timestamp) {
             start = end;
             end = start;
         }
 
         setSelectedDate(end);
         const interval = generateInterval(start, end);
-
+        setMarkedDates(interval);
+        
+        console.log(markedDates)
     }
 
     return (
@@ -79,7 +89,11 @@ export function Scheduling() {
             </Header>
 
             <Content>
-                <Calendar markedDates={{}} onDayPress={handleChangeDate} />
+                <Calendar
+               
+                    markedDates={{markedDates}}
+                    onDayPress={handleChangeDate}
+                />
             </Content>
 
             <Footer>

@@ -13,14 +13,7 @@ import { ptBR } from './localeConfig';
 LocaleConfig.locales['pt-BR'] = ptBR;
 LocaleConfig.defaultLocale = 'pt-BR';
 
-// interface MarkedDatesPros extends CalendarProps {
-//     [date: string]: {
-//         color: string;
-//         textColor: string;
-//         disabled?: boolean;
-//         disabledTouchEvent?: boolean;
-//     };
-// }
+interface MarkedDatesPros extends CalendarProps {}
 
 interface DayProps {
     dateString: string;
@@ -30,7 +23,7 @@ interface DayProps {
     timestamp: number;
 }
 
-function Calendar({ markedDates, onDayPress }: CalendarProps) {
+function Calendar({ markedDates, onDayPress }: MarkedDatesPros) {
     const theme = useTheme();
 
     return (
@@ -71,4 +64,4 @@ function Calendar({ markedDates, onDayPress }: CalendarProps) {
     );
 }
 
-export { Calendar, CalendarProps, DayProps, generateInterval };
+export { Calendar, MarkedDatesPros, DayProps, generateInterval };
