@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
+import { format } from 'date-fns';
 
 import { BackButton } from '../../components/BackButton';
 import { Button } from '../../components/Button';
@@ -12,6 +13,7 @@ import {
     MarkedDatesPros
 } from '../../components/Calendar';
 
+import { getPlatformDate } from '../../utils/getPlatformDate';
 import ArrowSvg from '../../assets/arrow.svg';
 
 import {
@@ -26,12 +28,22 @@ import {
     Footer
 } from './styles';
 
+interface RentalPeriod {
+    start: number;
+    startFormatted: string;
+    end: number;
+    endFormatted: string;
+}
+
 export function Scheduling() {
     const [lastSelectedDate, setSelectedDate] = useState<DayProps>(
         {} as DayProps
     );
     const [markedDates, setMarkedDates] = useState<MarkedDatesPros>(
         {} as MarkedDatesPros
+    );
+    const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
+        {} as RentalPeriod
     );
 
     const theme = useTheme();
@@ -57,8 +69,24 @@ export function Scheduling() {
         setSelectedDate(end);
         const interval = generateInterval(start, end);
         setMarkedDates(interval);
-        
-        console.log(markedDates)
+
+        console.log(markedDates);
+
+        const firstDate = Object.keys(interval)[0];
+        const endDate = Object.keys(interval)[Object.keys(interval).length - 1];
+
+        setRentalPeriod({
+            start: start.timestamp,
+            end: end.timestamp,
+            startFormatted: format(
+                getPlatformDate(new Date(firstDate)),
+                'dd/MM/yyyy'
+            ),
+            endFormatted: format(
+                getPlatformDate(new Date(endDate)),
+                'dd/MM/yyyy'
+            )
+        });
     }
 
     return (
@@ -76,22 +104,21 @@ export function Scheduling() {
                 <RentalPeriod>
                     <DateInfo>
                         <DateTitle>DE</DateTitle>
-                        <DateValue selected={true}>10/11/2021</DateValue>
+                        <DateValue selected={false}>{rentalPeriod.startFormatted}</DateValue>
                     </DateInfo>
 
                     <ArrowSvg />
 
                     <DateInfo>
                         <DateTitle>ATÉ</DateTitle>
-                        <DateValue selected={false}>10/11/2021</DateValue>
+                        <DateValue selected={false}>{rentalPeriod.endFormatted}</DateValue>
                     </DateInfo>
                 </RentalPeriod>
             </Header>
 
             <Content>
                 <Calendar
-               
-                    markedDates={{markedDates}}
+                    markedDates={{ markedDates }}
                     onDayPress={handleChangeDate}
                 />
             </Content>
