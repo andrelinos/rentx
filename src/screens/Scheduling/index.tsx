@@ -10,7 +10,7 @@ import {
     Calendar,
     DayProps,
     generateInterval,
-    MarkedDatesPros
+    MarkedDatesProps
 } from '../../components/Calendar';
 
 import { getPlatformDate } from '../../utils/getPlatformDate';
@@ -39,8 +39,8 @@ export function Scheduling() {
     const [lastSelectedDate, setSelectedDate] = useState<DayProps>(
         {} as DayProps
     );
-    const [markedDates, setMarkedDates] = useState<MarkedDatesPros>(
-        {} as MarkedDatesPros
+    const [markedDates, setMarkedDates] = useState<MarkedDatesProps>(
+        {} as MarkedDatesProps
     );
     const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
         {} as RentalPeriod
@@ -104,21 +104,25 @@ export function Scheduling() {
                 <RentalPeriod>
                     <DateInfo>
                         <DateTitle>DE</DateTitle>
-                        <DateValue selected={false}>{rentalPeriod.startFormatted}</DateValue>
+                        <DateValue selected={false}>
+                            {rentalPeriod.startFormatted}
+                        </DateValue>
                     </DateInfo>
 
                     <ArrowSvg />
 
                     <DateInfo>
                         <DateTitle>ATÉ</DateTitle>
-                        <DateValue selected={false}>{rentalPeriod.endFormatted}</DateValue>
+                        <DateValue selected={false}>
+                            {rentalPeriod.endFormatted}
+                        </DateValue>
                     </DateInfo>
                 </RentalPeriod>
             </Header>
 
             <Content>
                 <Calendar
-                    markedDates={{ markedDates }}
+                    markedDates={markedDates}
                     onDayPress={handleChangeDate}
                 />
             </Content>
