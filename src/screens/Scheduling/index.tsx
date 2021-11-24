@@ -28,6 +28,15 @@ import {
     Footer
 } from './styles';
 
+interface CalendarProps {
+    [date: string]: {
+        color: string;
+        textColor: string;
+        disabled?: boolean;
+        disabledTouchEvent?: boolean;
+      };
+}
+
 interface RentalPeriod {
     start: number;
     startFormatted: string;
@@ -39,8 +48,8 @@ export function Scheduling() {
     const [lastSelectedDate, setSelectedDate] = useState<DayProps>(
         {} as DayProps
     );
-    const [markedDates, setMarkedDates] = useState<MarkedDatesProps>(
-        {} as MarkedDatesProps
+    const [markedDates, setMarkedDates] = useState<CalendarProps>(
+        {} as CalendarProps
     );
     const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
         {} as RentalPeriod
@@ -104,7 +113,7 @@ export function Scheduling() {
                 <RentalPeriod>
                     <DateInfo>
                         <DateTitle>DE</DateTitle>
-                        <DateValue selected={false}>
+                        <DateValue selected={!!rentalPeriod.startFormatted}>
                             {rentalPeriod.startFormatted}
                         </DateValue>
                     </DateInfo>
@@ -113,7 +122,7 @@ export function Scheduling() {
 
                     <DateInfo>
                         <DateTitle>ATÉ</DateTitle>
-                        <DateValue selected={false}>
+                        <DateValue selected={!!rentalPeriod.endFormatted}>
                             {rentalPeriod.endFormatted}
                         </DateValue>
                     </DateInfo>
