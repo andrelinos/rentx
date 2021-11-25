@@ -11,10 +11,12 @@ import { SchedulingComplete } from '../screens/SchedulingComplete';
 
 export type RootStackParamList = {
     Home: undefined;
-    CarDetails: { car: CarDTO };
-    Scheduling: undefined;
-    SchedulingDetails: undefined;
+    CarDetails: { car: CarDTO | undefined };
+    Scheduling: { car: CarDTO | undefined };
+    SchedulingDetails: { car: CarDTO; dates: string[] };
     SchedulingComplete: undefined;
+    MyCars: undefined;
+    Splash: undefined;
 };
 
 const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
