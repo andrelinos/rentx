@@ -5,7 +5,6 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import api from '../../services/api';
 import { CarDTO } from '../../dtos/CarDTO';
-import { RootStackParamList } from '../../routes/stack.routes';
 
 import { Header } from '../../components/Header';
 import { Car } from '../../components/Car';
@@ -13,13 +12,11 @@ import { Load } from '../../components/Load';
 
 import { CarsList, Container } from './styles';
 
-type HomeNavigation = StackNavigationProp<RootStackParamList, 'Home'>;
-
 export function Home() {
     const [cars, setCars] = useState<CarDTO[]>([]);
     const [loading, setLoading] = useState(true);
 
-    const { navigate } = useNavigation<HomeNavigation>();
+    const { navigate } = useNavigation();
 
     function handleCarDetails(car: CarDTO) {
         navigate('CarDetails', { car });

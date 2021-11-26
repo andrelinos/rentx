@@ -9,19 +9,11 @@ import { Scheduling } from '../screens/Scheduling';
 import { SchedulingDetails } from '../screens/SchedulingDetails';
 import { SchedulingComplete } from '../screens/SchedulingComplete';
 
-export type RootStackParamList = {
-    Home: undefined;
-    CarDetails: { car: CarDTO | undefined };
-    Scheduling: { car: CarDTO | undefined };
-    SchedulingDetails: { car: CarDTO; dates: string[] };
-    SchedulingComplete: undefined;
-    MyCars: undefined;
-    Splash: undefined;
-};
 
-const { Navigator, Screen } = createStackNavigator<RootStackParamList>();
 
 export function StackRoutes() {
+    const { Navigator, Screen } = createStackNavigator();
+    
     return (
         <Navigator
             screenOptions={{

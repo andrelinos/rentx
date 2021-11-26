@@ -9,8 +9,7 @@ import { Button } from '../../components/Button';
 import {
     Calendar,
     DayProps,
-    generateInterval,
-    MarkedDatesProps
+    generateInterval
 } from '../../components/Calendar';
 
 import { CarDTO } from '../../dtos/CarDTO';
@@ -91,6 +90,7 @@ export function Scheduling() {
 
         setSelectedDate(end);
         const interval = generateInterval(start, end);
+        
         setMarkedDates(interval);
 
         console.log(markedDates);
