@@ -90,10 +90,8 @@ export function Scheduling() {
 
         setSelectedDate(end);
         const interval = generateInterval(start, end);
-        
-        setMarkedDates(interval);
 
-        console.log(markedDates);
+        setMarkedDates(interval);
 
         const firstDate = Object.keys(interval)[0];
         const endDate = Object.keys(interval)[Object.keys(interval).length - 1];

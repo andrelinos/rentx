@@ -7,32 +7,27 @@ import { useTheme } from 'styled-components';
 import api from '../../services/api';
 import { CarDTO } from '../../dtos/CarDTO';
 
-import { Header } from '../../components/Header';
 import { Car } from '../../components/Car';
 import { Load } from '../../components/Load';
+import { BackButton } from '../../components/BackButton';
 
-import { CarsList, Container, MyCarsButton } from './styles';
+import { Container, Header, CarsList, Title, SubTitle } from './styles';
 
-export function Home() {
+export function MyCars() {
     const [cars, setCars] = useState<CarDTO[]>([]);
     const [loading, setLoading] = useState(true);
 
     const theme = useTheme();
 
-    const { navigate } = useNavigation();
+    const navigation = useNavigation();
 
-    function handleCarDetails(car: CarDTO) {
-        navigate('CarDetails', { car });
-    }
-
-    function handleOpenMyCars() {
-        navigate('MyCars');
+    function handleBack() {
+        navigation.goBack();
     }
 
     async function fetchCars() {
         try {
-            const response = await api.get('/cars');
-
+            const response = await api.get('/schedules_byuser?user_id=1');
             setCars(response.data);
         } catch (error) {
             console.log(error);
@@ -52,8 +47,17 @@ export function Home() {
                 backgroundColor="transparent"
                 translucent
             />
-            <Header title={`Total de ${cars.length} carros disponíveis`} />
-            {loading ? (
+
+<Header>
+                <BackButton onPress={handleBack} color={theme.colors.shape} />
+
+                <Title>Seus agendamentos, estão aqui.</Title>
+                <SubTitle>Conforto, segurança e praticidade.</SubTitle>
+
+            </Header>
+
+
+            {/* {loading ? (
                 <Load />
             ) : (
                 <CarsList
@@ -62,19 +66,11 @@ export function Home() {
                     renderItem={({ item }) => (
                         <Car
                             data={item}
-                            onPress={() => handleCarDetails(item)}
+                          
                         />
                     )}
                 />
-            )}
-
-            <MyCarsButton onPress={handleOpenMyCars}>
-                <Ionicons
-                    name="ios-car-sport"
-                    color={theme.colors.shape}
-                    size={32}
-                />
-            </MyCarsButton>
+            )} */}
         </Container>
     );
 }
