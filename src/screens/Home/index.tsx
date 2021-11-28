@@ -59,6 +59,7 @@ export function Home() {
                 <CarsList
                     data={cars}
                     keyExtractor={(item) => item.id}
+                    showsVerticalScrollIndicator={false}
                     renderItem={({ item }) => (
                         <Car
                             data={item}
