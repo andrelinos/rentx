@@ -5,7 +5,7 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "start": "react-native start",
-    "start:api": "json-server ./src/services/server.json --host 192.168.0.101 --port 3333 --delay 700"
+    "start:api": "json-server ./src/services/server.json --host 192.168.0.102 --port 3333 --delay 700"
   },
   "dependencies": {
     "@expo-google-fonts/archivo": "^0.2.0",

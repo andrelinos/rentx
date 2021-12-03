@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
+import Animated, {
+    Extrapolate,
+    interpolate,
+    useAnimatedScrollHandler,
+    useAnimatedStyle,
+    useSharedValue
+} from 'react-native-reanimated';
 
 import { CarDTO } from '../../dtos/CarDTO';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
@@ -37,6 +44,28 @@ export function CarDetails() {
     const navigation = useNavigation();
     const route = useRoute();
 
+    const scrollY = useSharedValue(0);
+    const scrollHandler = useAnimatedScrollHandler((event) => {
+        scrollY.value = event.contentOffset.y;
+    });
+
+    const headerStyleAnimation = useAnimatedStyle(() => {
+        return {
+            height: interpolate(
+                scrollY.value,
+                [0, 200],
+                [200, 70],
+                Extrapolate.CLAMP
+            ),
+            opacity: interpolate(
+                scrollY.value,
+                [0, 50, 100, 150, 200],
+                [1, 0.8, 0.5, 0.3, 1],
+                Extrapolate.CLAMP
+            )
+        };
+    });
+
     const { car } = route.params as Params;
 
     function handleConfirmRental() {
@@ -56,14 +85,16 @@ export function CarDetails() {
                 backgroundColor="transparent"
                 translucent
             />
-            <Header>
-                <BackButton onPress={handleBack} />
-            </Header>
-            <CarImagesContainer>
-                <ImageSlider key={car.id} imagesUrl={car.photos} />
-            </CarImagesContainer>
+            <Animated.View style={[headerStyleAnimation]}>
+                <Header>
+                    <BackButton onPress={handleBack} />
+                </Header>
+                <CarImagesContainer>
+                    <ImageSlider key={car.id} imagesUrl={car.photos} />
+                </CarImagesContainer>
+            </Animated.View>
 
-            <Content>
+            <Content onScroll={scrollHandler}>
                 <Details>
                     <Description>
                         <Brand>{car.brand}</Brand>
@@ -83,17 +114,17 @@ export function CarDetails() {
                             icon={getAccessoryIcon(accessory.type)}
                         />
                     ))}
-
-                    {/* {car.accessories.map((accessory) => (
-            <Accessory
-              key={accessory.type}
-              name={accessory.name}
-              icon={getAccessoryIcon(accessory.type)}
-            />
-          ))} */}
                 </Accessories>
 
-                <About>{car.about}</About>
+                <About>
+                    {car.about}
+                    {car.about}
+                    {car.about}
+                    {car.about}
+                    {car.about}
+                    {car.about}
+                    {car.about}
+                </About>
             </Content>
             <Footer>
                 <Button
