@@ -50,6 +50,7 @@ export function Home() {
             <StatusBar
                 barStyle="light-content"
                 backgroundColor="transparent"
+                hidden={false}
                 translucent
             />
             <Header title={`Total de ${cars.length} carros disponíveis`} />

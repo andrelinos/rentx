@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
+import { StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { useTheme } from 'styled-components';
 
 import Animated, {
     useSharedValue,
@@ -17,6 +19,8 @@ import { Container } from './styles';
 
 export function Splash() {
     const splashAnimation = useSharedValue(0);
+
+    const theme = useTheme();
 
     const navigation = useNavigation();
 
@@ -54,13 +58,18 @@ export function Splash() {
 
     useEffect(() => {
         splashAnimation.value = withTiming(50, { duration: 3000 }, () => {
-            'worklet' // para chamadas de threads diferentes no fluxo d App
+            'worklet'; // para chamadas de threads diferentes no fluxo d App
             runOnJS(goHome)();
         });
     }, []);
 
     return (
         <Container>
+            <StatusBar
+                barStyle='default'
+                backgroundColor={theme.colors.header}
+                translucent
+            />
             <Animated.View style={[brandStyle, { position: 'absolute' }]}>
                 <BrandSvg width={80} height={50} />
             </Animated.View>

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 import { StatusBar } from 'react-native';
+import { useTheme } from 'styled-components';
+
 import Animated, {
     Extrapolate,
     interpolate,
@@ -43,11 +46,14 @@ export function CarDetails() {
 
     const navigation = useNavigation();
     const route = useRoute();
+    const theme = useTheme();
 
     const scrollY = useSharedValue(0);
     const scrollHandler = useAnimatedScrollHandler((event) => {
         scrollY.value = event.contentOffset.y;
     });
+
+    const marginTop = getStatusBarHeight();
 
     const headerStyleAnimation = useAnimatedStyle(() => {
         return {
@@ -57,10 +63,18 @@ export function CarDetails() {
                 [200, 70],
                 Extrapolate.CLAMP
             ),
+            backgroundColor: theme.colors.background_secondary,
+            zIndex: 9,
+            minHeight: marginTop + 16
+        };
+    });
+
+    const sliderCarStyleAnimation = useAnimatedStyle(() => {
+        return {
             opacity: interpolate(
                 scrollY.value,
-                [0, 50, 100, 150, 200],
-                [1, 0.8, 0.5, 0.3, 1],
+                [0, 150],
+                [1, 0],
                 Extrapolate.CLAMP
             )
         };
@@ -86,10 +100,10 @@ export function CarDetails() {
                 translucent
             />
             <Animated.View style={[headerStyleAnimation]}>
-                <Header>
+                <Header style={sliderCarStyleAnimation}>
                     <BackButton onPress={handleBack} />
                 </Header>
-                <CarImagesContainer>
+                <CarImagesContainer style={sliderCarStyleAnimation}>
                     <ImageSlider key={car.id} imagesUrl={car.photos} />
                 </CarImagesContainer>
             </Animated.View>
