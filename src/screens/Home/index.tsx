@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
+import Animated, { useSharedValue } from 'react-native-reanimated';
 import { useTheme } from 'styled-components';
 
 import api from '../../services/api';
@@ -12,10 +13,16 @@ import { Car } from '../../components/Car';
 import { Load } from '../../components/Load';
 
 import { CarsList, Container, MyCarsButton } from './styles';
+import { RectButton } from 'react-native-gesture-handler';
+
+const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
 export function Home() {
     const [cars, setCars] = useState<CarDTO[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const positionY = useSharedValue(0);
+    const positionX = useSharedValue(0);
 
     const theme = useTheme();
 
@@ -70,13 +77,15 @@ export function Home() {
                 />
             )}
 
-            <MyCarsButton onPress={handleOpenMyCars}>
-                <Ionicons
-                    name="ios-car-sport"
-                    color={theme.colors.shape}
-                    size={32}
-                />
-            </MyCarsButton>
+            <Animated.View>
+                <ButtonAnimated onPress={handleOpenMyCars}>
+                    <Ionicons
+                        name="ios-car-sport"
+                        color={theme.colors.shape}
+                        size={32}
+                    />
+                </ButtonAnimated>
+            </Animated.View>
         </Container>
     );
 }
