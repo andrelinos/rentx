@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 import { FlatList } from 'react-native';
 import { CarDTO } from '../../dtos/CarDTO';
-import { RectButton, RectButtonProps } from 'react-native-gesture-handler';
+import { RectButton } from 'react-native-gesture-handler';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import Animated from 'react-native-reanimated';
 
