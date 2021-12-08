@@ -66,7 +66,7 @@ export function Splash() {
     return (
         <Container>
             <StatusBar
-                barStyle='default'
+                barStyle="default"
                 backgroundColor={theme.colors.header}
                 translucent
             />

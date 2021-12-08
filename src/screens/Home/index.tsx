@@ -1,6 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { BackHandler, StatusBar, StyleSheet } from 'react-native';
+import {
+    CommonActions,
+    useFocusEffect,
+    useNavigation,
+    StackRouter
+} from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
@@ -26,6 +31,9 @@ const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 export function Home() {
     const [cars, setCars] = useState<CarDTO[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const theme = useTheme();
+    const navigation = useNavigation();
 
     const positionX = useSharedValue(0);
     const positionY = useSharedValue(0);
@@ -54,15 +62,12 @@ export function Home() {
         }
     });
 
-    const theme = useTheme();
-    const { navigate } = useNavigation();
-
     function handleCarDetails(car: CarDTO) {
-        navigate('CarDetails', { car });
+        navigation.navigate('CarDetails', { car });
     }
 
     function handleOpenMyCars() {
-        navigate('MyCars');
+        navigation.navigate('MyCars');
     }
 
     async function fetchCars() {
@@ -81,6 +86,14 @@ export function Home() {
         fetchCars();
     }, []);
 
+    useFocusEffect(() => {
+        const backHandler = BackHandler.addEventListener(
+            'hardwareBackPress',
+            () => true
+        );
+        return () => backHandler.remove();
+    });
+
     return (
         <Container>
             <StatusBar
@@ -89,7 +102,15 @@ export function Home() {
                 hidden={false}
                 translucent
             />
-            <Header title={`Total de ${cars.length} carros disponíveis`} />
+
+            <Header
+                title={`${
+                    cars.length > 0
+                        ? 'Total de ' + cars.length + ' carros'
+                        : ''
+                }`}
+            />
+
             {loading ? (
                 <Load />
             ) : (

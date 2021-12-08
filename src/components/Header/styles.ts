@@ -14,7 +14,6 @@ export const Container = styled.View`
 export const TotalCars = styled.Text`
   color: ${({ theme }) => theme.colors.line};
   font-family: ${({ theme }) => theme.fonts.primary_400};
-  font-size: ${RFValue(15)}px;
+  font-size: ${RFValue(14)}px;
   color: ${({ theme }) => theme.colors.text};
-
 `;

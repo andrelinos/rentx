@@ -78,10 +78,12 @@ export function MyCars() {
                 <SubTitle>Conforto, segurança e praticidade.</SubTitle>
             </Header>
             <Content>
-                <Appointments>
-                    <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
-                    <AppointmentsQuantity>{cars.length}</AppointmentsQuantity>
-                </Appointments>
+                {!loading && (
+                    <Appointments>
+                        <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
+                        <AppointmentsQuantity>{cars.length}</AppointmentsQuantity>
+                    </Appointments>
+                )}
 
                 {loading ? (
                     <Load />
@@ -94,16 +96,20 @@ export function MyCars() {
                             <CarWrapper>
                                 <Car data={item.car} />
                                 <CarFooter>
-                                <CarFooterTitle>Período</CarFooterTitle>
+                                    <CarFooterTitle>Período</CarFooterTitle>
                                     <CarFooterPeriod>
-                                    <CarFooterDate>{item.startDate}</CarFooterDate>
-                                    <AntDesign
-                                        name="arrowright"
-                                        size={16}
-                                        color={theme.colors.text}
-                                        style={{ marginHorizontal: 10 }}
-                                    />
-                                    <CarFooterDate>{item.endDate}</CarFooterDate>
+                                        <CarFooterDate>
+                                            {item.startDate}
+                                        </CarFooterDate>
+                                        <AntDesign
+                                            name="arrowright"
+                                            size={16}
+                                            color={theme.colors.text}
+                                            style={{ marginHorizontal: 10 }}
+                                        />
+                                        <CarFooterDate>
+                                            {item.endDate}
+                                        </CarFooterDate>
                                     </CarFooterPeriod>
                                 </CarFooter>
                             </CarWrapper>
