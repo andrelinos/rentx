@@ -9,6 +9,7 @@ import { CarDTO } from '../../dtos/CarDTO';
 
 import { Car } from '../../components/Car';
 import { Load } from '../../components/Load';
+import { LoadAnimated } from '../../components/LoadAnimated';
 import { BackButton } from '../../components/BackButton';
 
 import {
@@ -86,7 +87,7 @@ export function MyCars() {
                 )}
 
                 {loading ? (
-                    <Load />
+                    <LoadAnimated />
                 ) : (
                     <CarsList
                         data={cars}
