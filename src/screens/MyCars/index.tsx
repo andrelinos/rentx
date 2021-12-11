@@ -56,7 +56,7 @@ export function MyCars() {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(false);
+            setLoading(true);
         }
     }
 
