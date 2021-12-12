@@ -4,6 +4,7 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
     width: 31.75%;
+    min-width: 26%;
     height: 92px;
     justify-content: space-around;
     align-items: center;

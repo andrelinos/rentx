@@ -12,7 +12,7 @@ export const Container = styled.View`
 `;
 
 export const Header = styled(Animated.View)`
-width: 100%;
+    width: 100%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;

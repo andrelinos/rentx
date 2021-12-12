@@ -79,7 +79,7 @@ export function Home() {
         } catch (error) {
             console.log(error);
         } finally {
-            setLoading(true);
+            setLoading(false);
         }
     }
 
