@@ -22,7 +22,7 @@
 <br>
 <br>
 
-# Telas da aplicação
+# 📱 Telas da aplicação
 
 > <p>
 <img width="256px" src="./prtScn/Loading.png" alt="Loading" /><img width="256px" src="./prtScn/Home.png" alt="Home" /><img width="256px" src="./prtScn/Details.png" alt="Detalhes do carro" /><img width="256px" src="./prtScn/SchedulingDate.png" alt="Selecionar Data Agendamento" /><img width="256px" src="./prtScn/SchedulingDateSelected.png" alt="Data Agendamento Selecionada" /><img width="256px" src="./prtScn/Details-2.png" alt="Detalhes do agendamento" /><img width="256px" src="./prtScn/SchedulingComplete.png" alt="Agendamento realizado" /><img width="256px" src="./prtScn/MyScheduling.png" alt="Meus Agendamentos" />
@@ -31,7 +31,7 @@
 <br>
 <br>
 
-# Informações do projeto
+# 👽 Informações do projeto
 
 - Você pode acessar o layout do [**projeto no Figma** aqui](https://www.figma.com/file/4ojyGi2mGuQaGK0sUHMAqB/RentX-Ignite?node-id=0%3A1).
 - Você pode acessar o Código fonte do [**projeto no github** aqui](https://github.com/andrelinos/rentx).
@@ -39,7 +39,7 @@
 <br>
 <br>
 
-# Tecnologias e ferramentas usadas
+# 🏇 Tecnologias e ferramentas usadas
 
 - [React Native](https://reactnative.dev/)
 - [Expo](https://expo.dev/)
@@ -115,7 +115,7 @@ $ expo start
 <br>
 <br>
 
-# ✔️ Dúvidas
+# 😅 Dúvidas
 
 Se você tive alguma dúvida, poderá entrar em contato comigo aqui [andrelino.dev](https://andrelino.dev).
 
