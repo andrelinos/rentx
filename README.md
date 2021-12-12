@@ -3,21 +3,29 @@
 <p align="center"><img height="300px" alt="Logo RentX" src="./prtScn/logo.svg" /></p>
 
 > **Info**: Projeto desenvolvido durante as aulas do Chapter III do Ignite - Trilha React Native onde foi desenvolvida uma esta aplicação com funcionalidades de visualização de veículos disponíveis e agendamento.
+---
+<br>
 
+<p align="center">
+  <a href="#-telas-da-aplicação">Telas</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-informações-do-projeto">Informações</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-tecnologias-e-ferramentas-usadas">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-clonando-o-projeto-para-sua-máquina">Clonar</a>&nbsp;&nbsp;&nbsp;
+  |&nbsp;&nbsp;&nbsp;
+  <a href="#-como-executar-o-projeto-em-seu-celular-ou-emulador-usando-o-expo">Executando</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-dúvidas">Dúvidas</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#-licença-mit">Licença</a>
+</p>
+
+---
+<br/>
 <br>
 <br>
 
 # Telas da aplicação
 
 > <p>
-<img width="256px" src="./prtScn/Loading.png" alt="Loading" />
-<img width="256px" src="./prtScn/Home.png" alt="Home" />
-<img width="256px" src="./prtScn/Details.png" alt="Detalhes do carro" />
-<img width="256px" src="./prtScn/SchedulingDate.png" alt="Selecionar Data Agendamento" />
-<img width="256px" src="./prtScn/SchedulingDateSelected.png" alt="Data Agendamento Selecionada" />
-<img width="256px" src="./prtScn/Details-2.png" alt="Detalhes do agendamento" />
-<img width="256px" src="./prtScn/SchedulingComplete.png" alt="Agendamento realizado" />
-<img width="256px" src="./prtScn/MyScheduling.png" alt="Meus Agendamentos" />
+<img width="256px" src="./prtScn/Loading.png" alt="Loading" /><img width="256px" src="./prtScn/Home.png" alt="Home" /><img width="256px" src="./prtScn/Details.png" alt="Detalhes do carro" /><img width="256px" src="./prtScn/SchedulingDate.png" alt="Selecionar Data Agendamento" /><img width="256px" src="./prtScn/SchedulingDateSelected.png" alt="Data Agendamento Selecionada" /><img width="256px" src="./prtScn/Details-2.png" alt="Detalhes do agendamento" /><img width="256px" src="./prtScn/SchedulingComplete.png" alt="Agendamento realizado" /><img width="256px" src="./prtScn/MyScheduling.png" alt="Meus Agendamentos" />
 </p>
 
 <br>
