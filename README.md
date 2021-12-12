@@ -13,7 +13,7 @@
   <a href="#-clonando-o-projeto-para-sua-máquina">Clonar</a>&nbsp;&nbsp;&nbsp;
   |&nbsp;&nbsp;&nbsp;
   <a href="#-como-executar-o-projeto-em-seu-celular-ou-emulador-usando-o-expo">Executando</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-dúvidas">Dúvidas</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
+  <a href="#%EF%B8%8F-dúvidas">Dúvidas</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
   <a href="#-licença-mit">Licença</a>
 </p>
 
