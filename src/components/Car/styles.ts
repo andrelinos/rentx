@@ -4,12 +4,12 @@ import { RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled(RectButton)`
     width: 100%;
+    height: 100%;
     height: 126px;
-    background-color: ${({ theme }) => theme.colors.background_secondary};
+    background-color: ${({ theme }) => theme.colors.main};
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
     padding: 24px;
     margin-bottom: 16px;
 `;
