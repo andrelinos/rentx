@@ -2,8 +2,9 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { useTheme } from 'styled-components';
 import { Button } from '../../components/Button';
+import { Input } from '../../components/Input';
 
-import { Container, Header, Title, SubTitle, Footer } from './styles';
+import { Container, Header, Title, SubTitle, Form, Footer } from './styles';
 
 export function SigIn() {
     const theme = useTheme();
@@ -22,6 +23,22 @@ export function SigIn() {
                 </SubTitle>
             </Header>
 
+            <Form>
+                <Input
+                    iconName="mail"
+                    placeholder="E-mail"
+                    keyboardType="email-address"
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                />
+                <Input
+                    iconName="key"
+                    placeholder="Senha"
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                />
+            </Form>
+
             <Footer>
                 <Button
                     title="Login"
@@ -35,7 +52,7 @@ export function SigIn() {
                     onPress={() => {}}
                     enabled={false}
                     loading={false}
-                    light={true}
+                    light
                 />
             </Footer>
         </Container>

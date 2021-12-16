@@ -10,7 +10,7 @@ export const Container = styled.View`
 
 export const Header = styled.View`
     width: 100%;
-    margin-top: ${getStatusBarHeight() + RFValue(116)}px;
+    margin-top: ${getStatusBarHeight() + RFPercentage(10)}px;
 `;
 
 export const Title = styled.Text`
@@ -25,6 +25,11 @@ export const SubTitle = styled.Text`
     color: ${({ theme }) => theme.colors.text};
     line-height: ${RFValue(25)}px;
     margin-top: ${RFValue(16)}px;
+`;
+
+export const Form = styled.View`
+    width: 100%;
+    margin: 44px 0;
 `;
 
 export const Footer = styled.View``;
