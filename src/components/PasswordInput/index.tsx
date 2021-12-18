@@ -8,10 +8,13 @@ import { TextInputProps } from 'react-native';
 
 interface InputProps extends TextInputProps {
     iconName: React.ComponentProps<typeof Feather>['name'];
+    value?: string;
 }
 
-export function PasswordInput({ iconName, ...rest }: InputProps) {
+export function PasswordInput({ iconName, value, ...rest }: InputProps) {
     const [isPasswordVisible, setIsPasswordVisible] = useState(true);
+    const [isFocused, setIsFocused] = useState(false);
+    const [isFilled, setIsFilled] = useState(false);
 
     const theme = useTheme();
 
@@ -19,21 +22,40 @@ export function PasswordInput({ iconName, ...rest }: InputProps) {
         setIsPasswordVisible(!isPasswordVisible);
     }
 
+    function handleInputFocus() {
+        setIsFocused(true);
+    }
+
+    function handleInputBlur() {
+        setIsFocused(false);
+        setIsFilled(!!value);
+    }
+
     return (
         <Container>
-            <IconContainer>
+            <IconContainer isFocused={isFocused}>
                 <Feather
                     name={iconName}
                     size={24}
-                    color={theme.colors.text_detail}
+                    color={
+                        isFocused || isFilled
+                            ? theme.colors.main
+                            : theme.colors.text_detail
+                    }
                 />
             </IconContainer>
-            <InputText secureTextEntry={isPasswordVisible} {...rest} />
+            <InputText
+                isFocused={isFocused}
+                secureTextEntry={isPasswordVisible}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
+                {...rest}
+            />
 
             <BorderlessButton onPress={HandlePasswordVisibilityChange}>
-                <IconContainer>
+                <IconContainer isFocused={isFocused}>
                     <Feather
-                        name={isPasswordVisible ? 'eye' : 'eye-off'}
+                        name={isPasswordVisible ? 'eye-off' : 'eye'}
                         size={24}
                         color={theme.colors.text_detail}
                     />
