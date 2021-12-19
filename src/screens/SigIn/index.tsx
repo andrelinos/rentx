@@ -7,7 +7,9 @@ import {
     Alert
 } from 'react-native';
 import * as Yup from 'yup';
+
 import { useTheme } from 'styled-components';
+import { useNavigation } from '@react-navigation/native';
 
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -20,6 +22,7 @@ export function SigIn() {
     const [password, setPassword] = useState('');
 
     const theme = useTheme();
+    const navigation = useNavigation();
 
     async function handleSignIn() {
         try {
@@ -44,7 +47,9 @@ export function SigIn() {
         }
     }
 
-    function handleSignUp() {}
+    function handleNewAccount() {
+        navigation.navigate('SignUpFirstStep');
+    }
 
     return (
         <KeyboardAvoidingView behavior="position" enabled>
@@ -93,7 +98,7 @@ export function SigIn() {
                         <Button
                             title="Criar conta gratuita"
                             color={theme.colors.background_secondary}
-                            onPress={handleSignUp}
+                            onPress={handleNewAccount}
                             enabled={false}
                             loading={false}
                             light
