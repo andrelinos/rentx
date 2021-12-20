@@ -99,7 +99,7 @@ export function SigIn() {
                             title="Criar conta gratuita"
                             color={theme.colors.background_secondary}
                             onPress={handleNewAccount}
-                            enabled={false}
+                            enabled={true}
                             loading={false}
                             light
                         />
