@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import {
     StatusBar,
     Keyboard,
     KeyboardAvoidingView,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Alert
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import * as Yup from 'yup';
 
 import { useTheme } from 'styled-components';
 
@@ -27,17 +29,37 @@ import {
 } from './styles';
 
 export function SignUpFirstStep() {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [driverLicense, setDriverLicense] = useState('');
 
     const navigation = useNavigation();
-    
+
     const theme = useTheme();
 
     function handleBack() {
         navigation.goBack();
     }
 
-    function handleNextStep() {
-        navigation.navigate('SignUpSecondtStep')
+    async function handleNextStep() {
+        try {
+            const schema = Yup.object().shape({
+                driverLicense: Yup.string().required('CNH é obrigatória'),
+                email: Yup.string()
+                    .required('E-mail obrigatório')
+                    .email('E-mail inválido'),
+                name: Yup.string().required('Nome obrigatório')
+            });
+
+            const data = { name, email, driverLicense };
+            await schema.validate(data);
+
+            navigation.navigate('SignUpSecondStep', { user: data });
+        } catch (error) {
+            if (error instanceof Yup.ValidationError) {
+                Alert.alert('Opa!', error.message);
+            }
+        }
     }
 
     return (
@@ -68,8 +90,8 @@ export function SignUpFirstStep() {
                             iconName="user"
                             placeholder="Nome"
                             autoCorrect={false}
-                            onChangeText={() => {}}
-                            value="Nome"
+                            onChangeText={setName}
+                            value={name}
                         />
                         <Input
                             iconName="mail"
@@ -77,16 +99,16 @@ export function SignUpFirstStep() {
                             keyboardType="email-address"
                             autoCorrect={false}
                             autoCapitalize="none"
-                            onChangeText={() => {}}
-                            value="email"
+                            onChangeText={setEmail}
+                            value={email}
                         />
                         <Input
                             iconName="credit-card"
                             placeholder="CNH"
                             keyboardType="numeric"
                             autoCorrect={false}
-                            onChangeText={() => {}}
-                            value="Nome"
+                            onChangeText={setDriverLicense}
+                            value={driverLicense}
                         />
                     </Form>
 

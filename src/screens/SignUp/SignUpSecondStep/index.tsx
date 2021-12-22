@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
+import { useTheme } from 'styled-components';
 import {
     StatusBar,
     Keyboard,
     KeyboardAvoidingView,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback,
+    Alert
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-
-import { useTheme } from 'styled-components';
+import * as Yup from 'yup';
 
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
@@ -26,13 +27,46 @@ import {
     FormTitle
 } from './styles';
 
-export function SignUpSecondStep() {
-    const navigation = useNavigation();
+interface Params {
+    user: {
+        name: string;
+        email: string;
+        driverLicense: string;
+    };
+}
 
+export function SignUpSecondStep() {
+    const [password, setPassword] = useState('');
+    const [passwordConfirm, setPasswordConfirm] = useState('');
+
+    const navigation = useNavigation();
+    const route = useRoute();
     const theme = useTheme();
+
+    const { user } = route.params as Params;
 
     function handleBack() {
         navigation.goBack();
+    }
+
+    async function handleRegister() {
+        try {
+            const schema = Yup.object().shape({
+                passwordConfirm: Yup.string()
+                    .required('Confirmação de senha obrigatória'),
+                password: Yup.string()
+                    .required('Senha obrigatória')
+                    .min(8, 'A senha precisa ter no mínimo 8 caracteres')
+                    //.validate(passwordConfirm, 'Senhas não são iguais')
+            });
+
+            const data = { password, passwordConfirm };
+            await schema.validate(data);
+        } catch (error) {
+            if (error instanceof Yup.ValidationError) {
+                Alert.alert('Opa!', error.message);
+            }
+        }
     }
 
     return (
@@ -48,8 +82,8 @@ export function SignUpSecondStep() {
                         <Nav>
                             <BackButton onPress={handleBack} />
                             <Steps>
-                                <Bullet active />
                                 <Bullet />
+                                <Bullet active />
                             </Steps>
                         </Nav>
                         <Title>Crie sua{'\n'}conta.</Title>
@@ -63,15 +97,15 @@ export function SignUpSecondStep() {
                             iconName="lock"
                             placeholder="Senha"
                             autoCapitalize="none"
-                            onChangeText={() => {}}
-                            value={'password'}
+                            onChangeText={setPassword}
+                            value={password}
                         />
                         <PasswordInput
                             iconName="lock"
                             placeholder="Repetir senha"
                             autoCapitalize="none"
-                            onChangeText={() => {}}
-                            value={'repeat_password'}
+                            onChangeText={setPasswordConfirm}
+                            value={passwordConfirm}
                         />
                     </Form>
 
@@ -79,7 +113,7 @@ export function SignUpSecondStep() {
                         <Button
                             title="Cadastrar"
                             color={theme.colors.success}
-                            onPress={() => {}}
+                            onPress={handleRegister}
                             enabled={true}
                             loading={false}
                         />
