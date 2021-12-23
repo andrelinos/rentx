@@ -64,9 +64,8 @@ export function SignUpSecondStep() {
                         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
                         'A senha precisa ter no mínimo 8 caracteres, ' +
                             'uma letra maiúscula e uma letra minúscula, ' +
-                            'um número e um caracter especial'
+                            'um número e um caractere especial'
                     )
-                //.validate(passwordConfirm, 'Senhas não são iguais')
             });
 
             const data = { password, passwordConfirm };
