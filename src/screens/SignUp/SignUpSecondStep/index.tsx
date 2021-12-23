@@ -53,11 +53,20 @@ export function SignUpSecondStep() {
         try {
             const schema = Yup.object().shape({
                 passwordConfirm: Yup.string()
-                    .required('Confirmação de senha obrigatória'),
+                    .required('Confirme sua senha')
+                    .oneOf(
+                        [Yup.ref('password'), null],
+                        'As senhas precisam ser iguais.'
+                    ),
                 password: Yup.string()
                     .required('Senha obrigatória')
-                    .min(8, 'A senha precisa ter no mínimo 8 caracteres')
-                    //.validate(passwordConfirm, 'Senhas não são iguais')
+                    .matches(
+                        /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/,
+                        'A senha precisa ter no mínimo 8 caracteres, ' +
+                            'uma letra maiúscula e uma letra minúscula, ' +
+                            'um número e um caracter especial'
+                    )
+                //.validate(passwordConfirm, 'Senhas não são iguais')
             });
 
             const data = { password, passwordConfirm };
