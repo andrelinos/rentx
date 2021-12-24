@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { StatusBar, useWindowDimensions } from 'react-native';
 import { useTheme } from 'styled-components';
 
@@ -16,13 +16,22 @@ import {
     ButtonContainer
 } from './styles';
 
-export function SchedulingComplete() {
+interface Params {
+    title: string;
+    message: string;
+    nextScreenRoute: string ; // corrigir tipagem
+}
+
+export function Confirmation() {
     const theme = useTheme();
 
     const navigation = useNavigation();
+    const route = useRoute();
 
-    function handleGoToHome() {
-        navigation.navigate('Home');
+    const { title, message, nextScreenRoute } = route.params as Params;
+
+    function handleGoToScreen() {
+        navigation.navigate(nextScreenRoute);
     }
 
     const { width } = useWindowDimensions();
@@ -39,17 +48,14 @@ export function SchedulingComplete() {
 
                 <Content>
                     <DoneSvg width={80} height={80} />
-                    <Title>Carro alugado!</Title>
+                    <Title>{title}</Title>
 
-                    <Message>
-                        Agora você só precisa ir{'\n'}até uma concessionária da
-                        RENTX{'\n'}e pegar seu automóvel
-                    </Message>
+                    <Message>{message}</Message>
                     <ButtonContainer>
                         <Button
                             title="Ok"
                             color={theme.colors.shape_dark}
-                            onPress={handleGoToHome}
+                            onPress={handleGoToScreen}
                         />
                     </ButtonContainer>
                 </Content>
