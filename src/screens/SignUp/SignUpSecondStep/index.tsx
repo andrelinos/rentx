@@ -35,6 +35,12 @@ interface Params {
     };
 }
 
+interface ConfirmationProps {
+    nextScreenRoute: 'SignIn';
+    title: string;
+    message: string;
+}
+
 export function SignUpSecondStep() {
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
@@ -75,6 +81,12 @@ export function SignUpSecondStep() {
                 Alert.alert('Opa!', error.message);
             }
         }
+
+        navigation.navigate('Confirmation', {
+            nextScreenRoute: 'SignIn',
+            title: 'Conta Criada',
+            message: `Agora é só fazer o login\ne aproveitar`
+        });
     }
 
     return (

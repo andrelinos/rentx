@@ -19,10 +19,9 @@ import {
 
 export interface CarProps /* extends RectButtonProps */ {
     data: CarDTO;
-    onPress: () => void;
 }
 
-export function Car({ data, onPress, ...rest }: CarProps) {
+export function Car({ data, ...rest }: CarProps) {
     const MotorIcon = getAccessoryIcon(data.fuel_type);
 
     return (

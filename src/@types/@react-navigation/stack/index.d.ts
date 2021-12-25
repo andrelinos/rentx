@@ -1,6 +1,13 @@
+type ScreenDTO = {
+    nextScreenRoute: 'SignIn' | 'Home' | 'MyCars';
+    title?: string;
+    message?: string;
+};
+
 declare namespace ReactNavigation {
     export interface RootParamList {
         Splash: undefined;
+        SignIn: undefined;
         SignUpFirstStep: undefined;
         SignUpSecondStep: {
             user:
@@ -15,7 +22,7 @@ declare namespace ReactNavigation {
         CarDetails: { car: CarDTO | undefined };
         Scheduling: { car: CarDTO | undefined };
         SchedulingDetails: { car: CarDTO; dates: string[] };
-        Confirmation: undefined;
+        Confirmation: ScreenDTO;
         MyCars: undefined;
     }
 }

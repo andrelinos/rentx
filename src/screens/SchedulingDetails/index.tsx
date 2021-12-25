@@ -102,7 +102,13 @@ export function SchedulingDetails() {
             id: car.id,
             unavailable_dates
         })
-            .then(() => navigation.navigate('SchedulingComplete'))
+            .then(() => {
+                navigation.navigate('Confirmation', {
+                    nextScreenRoute: 'MyCars',
+                    title: 'Carro alugado!',
+                    message: `Agora você só precisa ir\naté uma concessionária da RENTX\ne pegar seu carro!`
+                });
+            })
             .catch(() => {
                 Alert.alert('Não foi possível realizar o agendamento.');
                 setLoading(false);

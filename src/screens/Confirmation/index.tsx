@@ -19,7 +19,7 @@ import {
 interface Params {
     title: string;
     message: string;
-    nextScreenRoute: string ; // corrigir tipagem
+    nextScreenRoute: any; // corrigir tipagem
 }
 
 export function Confirmation() {

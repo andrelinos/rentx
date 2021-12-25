@@ -17,7 +17,7 @@ import { PasswordInput } from '../../components/PasswordInput';
 
 import { Container, Header, Title, SubTitle, Form, Footer } from './styles';
 
-export function SigIn() {
+export function SignIn() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -27,14 +27,14 @@ export function SigIn() {
     async function handleSignIn() {
         try {
             const schema = Yup.object().shape({
+                password: Yup.string().required('Senha obrigatória'),
                 email: Yup.string()
                     .required('E-mail obrigatório')
-                    .email('Digite um e-mail válido'),
-                password: Yup.string().required('Senha obrigatória')
+                    .email('Digite um e-mail válido')
             });
 
             await schema.validate({ email, password });
-            Alert.alert('Tudo certo!');
+            navigation.navigate<any>('Home');
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
                 Alert.alert('Opa!', error.message);

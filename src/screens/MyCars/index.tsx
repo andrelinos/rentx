@@ -46,7 +46,7 @@ export function MyCars() {
     const navigation = useNavigation();
 
     function handleBack() {
-        navigation.goBack();
+        navigation.navigate<any>('Home');
     }
 
     async function fetchCars() {
