@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import * as Yup from 'yup';
 
+import api from '../../../services/api';
+
 import { BackButton } from '../../../components/BackButton';
 import { Bullet } from '../../../components/Bullet';
 import { PasswordInput } from '../../../components/PasswordInput';
@@ -82,11 +84,24 @@ export function SignUpSecondStep() {
             }
         }
 
-        navigation.navigate('Confirmation', {
-            nextScreenRoute: 'SignIn',
-            title: 'Conta Criada',
-            message: `Agora é só fazer o login\ne aproveitar`
-        });
+        await api
+            .post('/users', {
+                name: user.name,
+                email: user.email,
+                driver_license: user.driverLicense,
+                password
+            })
+            .then(() => {
+                navigation.navigate('Confirmation', {
+                    nextScreenRoute: 'SignIn',
+                    title: 'Conta Criada',
+                    message: `Agora é só fazer o login\ne aproveitar`
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+                Alert.alert('Opa!', 'Não foi possível cadastrar');
+            });
     }
 
     return (
