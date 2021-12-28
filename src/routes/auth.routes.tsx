@@ -14,7 +14,7 @@ import { SignIn } from '../screens/SignIn';
 import { SignUpFirstStep } from '../screens/SignUp/SignUpFirstStep';
 import { SignUpSecondStep } from '../screens/SignUp/SignUpSecondStep';
 
-export function StackRoutes() {
+export function AuthRoutes() {
     const { Navigator, Screen } = createStackNavigator();
 
     return (
@@ -22,11 +22,20 @@ export function StackRoutes() {
             screenOptions={{
                 headerShown: false
             }}
-            initialRouteName="SignIn"
+            initialRouteName="Splash"
         >
-            <Screen name="SignIn" component={SignIn} />
-            <Screen name="SignUpFirstStep" component={SignUpFirstStep} />
-            <Screen name="SignUpSecondStep" component={SignUpSecondStep} />
+            <Screen 
+                name="SignIn" 
+                component={SignIn} 
+            />
+            <Screen 
+                name="SignUpFirstStep" 
+                component={SignUpFirstStep} 
+            />
+            <Screen 
+                name="SignUpSecondStep" 
+                component={SignUpSecondStep} 
+            />
             <Screen
                 name="Home"
                 component={Home}
@@ -35,11 +44,26 @@ export function StackRoutes() {
                     detachPreviousScreen: true
                 }}
             />
-            <Screen name="CarDetails" component={CarDetails} />
-            <Screen name="Scheduling" component={Scheduling} />
-            <Screen name="SchedulingDetails" component={SchedulingDetails} />
-            <Screen name="Confirmation" component={Confirmation} />
-            <Screen name="MyCars" component={MyCars} />
+            <Screen 
+                name="CarDetails" 
+                component={CarDetails} 
+            />
+            <Screen 
+                name="Scheduling" 
+                component={Scheduling} 
+            />
+            <Screen 
+                name="SchedulingDetails" 
+                component={SchedulingDetails} 
+            />
+            <Screen 
+                name="Confirmation" 
+                component={Confirmation} 
+            />
+            <Screen 
+                name="MyCars" 
+                component={MyCars} 
+            />
         </Navigator>
     );
 }

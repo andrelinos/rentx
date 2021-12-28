@@ -31,7 +31,7 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
-    const [data, setData] = useState<AuthState>({} as AuthState);
+    const [data, setData] = useState<User>({} as User);
 
     async function signIn({ email, password }: SignInCredentials) {
         const response = await api.post('/sessions', {
@@ -43,11 +43,14 @@ function AuthProvider({ children }: AuthProviderProps) {
 
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-        setData({ token, user });
+        setData({ ...user, token });
     }
 
     return (
-        <AuthContext.Provider value={{ user: data.user, signIn }}>
+        <AuthContext.Provider 
+            value={{ 
+                user: data, signIn
+            }}>
             {children}
         </AuthContext.Provider>
     );
