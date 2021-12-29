@@ -31,26 +31,25 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
-    const [data, setData] = useState<User>({} as User);
+    const [data, setData] = useState<AuthState>({} as AuthState);
 
     async function signIn({ email, password }: SignInCredentials) {
         const response = await api.post('/sessions', {
             email,
             password
         });
+        console.log(response.data)
 
         const { token, user } = response.data();
 
+
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-        setData({ ...user, token });
+        setData({ token, user });
     }
 
     return (
-        <AuthContext.Provider 
-            value={{ 
-                user: data, signIn
-            }}>
+        <AuthContext.Provider value={{ user: data.user, signIn }}>
             {children}
         </AuthContext.Provider>
     );
