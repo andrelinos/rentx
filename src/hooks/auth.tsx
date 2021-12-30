@@ -38,10 +38,8 @@ function AuthProvider({ children }: AuthProviderProps) {
             email,
             password
         });
-        console.log(response.data)
 
-        const { token, user } = response.data();
-
+        const { token, user } = response.data;
 
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 

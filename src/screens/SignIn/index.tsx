@@ -23,7 +23,7 @@ export function SignIn() {
 
     const theme = useTheme();
     const navigation = useNavigation();
-    const { signIn } = useAuth();
+    const { signIn, user } = useAuth();
 
     async function handleSignIn() {
         try {
@@ -37,8 +37,6 @@ export function SignIn() {
             await schema.validate({ email, password });
 
             signIn({ email, password });
-
-            // navigation.navigate<any>('Home');
         } catch (error) {
             if (error instanceof Yup.ValidationError) {
                 Alert.alert('Opa!', error.message);

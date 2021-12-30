@@ -52,14 +52,14 @@ export function Splash() {
         };
     });
 
-    function goHome() {
+    function startApp() {
         navigation.navigate('SignIn');
     }
 
     useEffect(() => {
         splashAnimation.value = withTiming(50, { duration: 3000 }, () => {
             'worklet'; // para chamadas de threads diferentes no fluxo d App
-           runOnJS(goHome)();
+           runOnJS(startApp)();
         });
     }, []);
 
