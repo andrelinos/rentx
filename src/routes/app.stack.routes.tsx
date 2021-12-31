@@ -12,8 +12,9 @@ import { SignUpFirstStep } from '../screens/SignUp/SignUpFirstStep';
 import { SignUpSecondStep } from '../screens/SignUp/SignUpSecondStep';
 import { Confirmation } from '../screens/Confirmation';
 
+const { Navigator, Screen } = createStackNavigator();
+
 export function AppStackRoutes() {
-    const { Navigator, Screen } = createStackNavigator();
 
     return (
         <Navigator

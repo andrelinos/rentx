@@ -7,8 +7,9 @@ import { SignIn } from '../screens/SignIn';
 import { SignUpFirstStep } from '../screens/SignUp/SignUpFirstStep';
 import { SignUpSecondStep } from '../screens/SignUp/SignUpSecondStep';
 
+const { Navigator, Screen } = createStackNavigator();
+
 export function AuthRoutes() {
-    const { Navigator, Screen } = createStackNavigator();
 
     return (
         <Navigator

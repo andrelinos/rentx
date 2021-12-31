@@ -15,6 +15,8 @@ target 'rentx' do
     :path => config[:reactNativePath],
     :hermes_enabled => podfile_properties['expo.jsEngine'] == 'hermes'
   )
+  pod 'React-jsi', :path => '../node_modules/react-native/ReactCommon/jsi', :modular_headers => true
+
 
   # Uncomment to opt-in to using Flipper
   #
