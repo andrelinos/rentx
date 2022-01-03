@@ -19,7 +19,7 @@ import {
 
 export interface CarProps /* extends RectButtonProps */ {
     data: CarDTO;
-    onPress: () => void;
+    onPress?: () => void;
 }
 
 export function Car({ data, onPress }: CarProps) {
