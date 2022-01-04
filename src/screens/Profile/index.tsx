@@ -19,8 +19,10 @@ import {
     Content,
     Options,
     Option,
-    OptionTitle
+    OptionTitle,
+    Section
 } from './styles';
+import { Input } from '../../components/Input';
 
 export function Profile() {
     const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>(
@@ -97,6 +99,20 @@ export function Profile() {
                         </OptionTitle>
                     </Option>
                 </Options>
+
+                <Section>
+                    <Input
+                        iconName="user"
+                        placeholder="Nome"
+                        autoCorrect={false}
+                    />
+                    <Input iconName="mail" editable={false} />
+                    <Input
+                        iconName="credit-card"
+                        placeholder="CNH"
+                        keyboardType="numeric"
+                    />
+                </Section>
             </Content>
         </Container>
     );
