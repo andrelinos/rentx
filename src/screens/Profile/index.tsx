@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
@@ -15,10 +15,18 @@ import {
     LogoutButton,
     PhotoContainer,
     Photo,
-    PhotoButton
+    PhotoButton,
+    Content,
+    Options,
+    Option,
+    OptionTitle
 } from './styles';
 
 export function Profile() {
+    const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>(
+        'dataEdit'
+    );
+
     const theme = useTheme();
     const navigation = useNavigation();
 
@@ -29,6 +37,10 @@ export function Profile() {
     function handleLogout() {}
 
     function handlePhotoChange() {}
+
+    function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit') {
+        setOption(optionSelected);
+    }
 
     return (
         <Container>
@@ -43,7 +55,7 @@ export function Profile() {
                         onPress={handleBack}
                         color={theme.colors.shape}
                     />
-                    <HeaderTitle>Editar Perfil</HeaderTitle>
+                    <HeaderTitle>Editar perfil</HeaderTitle>
                     <LogoutButton onPress={handleLogout}>
                         <Feather
                             name="power"
@@ -66,6 +78,26 @@ export function Profile() {
                     </PhotoButton>
                 </PhotoContainer>
             </Header>
+            <Content>
+                <Options>
+                    <Option
+                        active={option === 'dataEdit'}
+                        onPress={() => handleOptionChange('dataEdit')}
+                    >
+                        <OptionTitle active={option === 'dataEdit'}>
+                            Dados
+                        </OptionTitle>
+                    </Option>
+                    <Option
+                        active={option === 'passwordEdit'}
+                        onPress={() => handleOptionChange('passwordEdit')}
+                    >
+                        <OptionTitle active={option === 'passwordEdit'}>
+                            Trocar senha
+                        </OptionTitle>
+                    </Option>
+                </Options>
+            </Content>
         </Container>
     );
 }
