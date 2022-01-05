@@ -8,7 +8,6 @@ interface OptionProps {
 }
 
 export const Container = styled.View`
-    flex: 1;
     background-color: ${({ theme }) => theme.colors.background_primary};
 `;
 
@@ -25,7 +24,7 @@ export const HeaderTop = styled.View`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-top: ${getStatusBarHeight() + RFPercentage(2)}px;
+    padding-top: ${getStatusBarHeight() + RFPercentage(2)}px;
 `;
 
 export const HeaderTitle = styled.Text`
@@ -53,6 +52,18 @@ export const Photo = styled.Image`
     height: 180px;
     border-radius: 90px;
     position: relative;
+    overflow: hidden;
+`;
+
+export const PhotoDefault = styled.View`
+    width: 180px;
+    height: 180px;
+    border-radius: 90px;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    background-color: ${({ theme }) => theme.colors.shape_dark};
+    overflow: hidden;
 `;
 
 export const PhotoButton = styled(RectButton)`
@@ -65,10 +76,10 @@ export const PhotoButton = styled(RectButton)`
     justify-content: center;
     align-items: center;
     background-color: ${({ theme }) => theme.colors.main};
+    z-index: 5;
 `;
 
 export const Content = styled.View`
-    flex: 1;
     padding: 0 24px;
     margin-top: 122px;
 `;
