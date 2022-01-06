@@ -33,7 +33,7 @@ export const HeaderTitle = styled.Text`
     font-size: ${RFValue(25)}px;
 `;
 
-export const LogoutButton = styled(BorderlessButton)``;
+export const SignOutButton = styled(BorderlessButton)``;
 
 export const PhotoContainer = styled.View`
     width: 186px;

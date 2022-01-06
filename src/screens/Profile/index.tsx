@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ImagePicker from 'expo-image-picker';
 import {
     StatusBar,
     KeyboardAvoidingView,
@@ -8,6 +9,7 @@ import {
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
+
 import { useAuth } from '../../hooks/auth';
 
 import { Feather } from '@expo/vector-icons';
@@ -21,7 +23,7 @@ import {
     Header,
     HeaderTop,
     HeaderTitle,
-    LogoutButton,
+    SignOutButton,
     PhotoContainer,
     Photo,
     PhotoDefault,
@@ -33,25 +35,43 @@ import {
     Section
 } from './styles';
 
-export function Profile() {
-    const [option, setOption] = useState<'dataEdit' | 'passwordEdit'>(
-        'dataEdit'
-    );
+type OptionProps = 'dataEdit' | 'passwordEdit';
 
+export function Profile() {
     const { user } = useAuth();
     const theme = useTheme();
     const navigation = useNavigation();
+
+    const [option, setOption] = useState<OptionProps>('dataEdit');
+    const [avatar, setAvatar] = useState(user.avatar);
+    const [name, setName] = useState(user.name);
+    const [driverLicense, setDriverLicense] = useState(user.driver_license);
 
     function handleBack() {
         navigation.navigate<any>('Home');
     }
 
-    function handleLogout() {}
-
-    function handlePhotoChange() {}
+    function handleSignOut() {}
 
     function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit') {
         setOption(optionSelected);
+    }
+
+    async function handleAvatarSelect() {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4, 4],
+            quality: 1
+        });
+
+        if (result.cancelled) {
+            return;
+        }
+
+        if (result.uri) {
+            setAvatar(result.uri);
+        }
     }
 
     return (
@@ -70,17 +90,17 @@ export function Profile() {
                                 color={theme.colors.shape}
                             />
                             <HeaderTitle>Editar perfil</HeaderTitle>
-                            <LogoutButton onPress={handleLogout}>
+                            <SignOutButton onPress={handleSignOut}>
                                 <Feather
                                     name="power"
                                     size={24}
                                     color={theme.colors.shape}
                                 />
-                            </LogoutButton>
+                            </SignOutButton>
                         </HeaderTop>
 
                         <PhotoContainer>
-                            {user.avatar.length > 0 ? (
+                            {avatar ? (
                                 <Photo
                                     source={{
                                         uri: user.avatar
@@ -91,11 +111,11 @@ export function Profile() {
                                     <Feather
                                         name="user"
                                         size={80}
-                                        color={theme.colors.shape}
+                                        color={theme.colors.title}
                                     />
                                 </PhotoDefault>
                             )}
-                            <PhotoButton onPress={handlePhotoChange}>
+                            <PhotoButton onPress={handleAvatarSelect}>
                                 <Feather
                                     name="camera"
                                     size={24}
@@ -133,6 +153,7 @@ export function Profile() {
                                     autoCapitalize="characters"
                                     autoCorrect={false}
                                     defaultValue={user.name}
+                                    onChangeText={setName}
                                 />
                                 <Input
                                     iconName="mail"
@@ -144,6 +165,7 @@ export function Profile() {
                                     placeholder="CNH"
                                     keyboardType="numeric"
                                     defaultValue={user.driver_license}
+                                    onChangeText={setDriverLicense}
                                 />
                             </Section>
                         ) : (
