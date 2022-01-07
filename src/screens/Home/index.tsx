@@ -17,8 +17,10 @@ import Animated, {
     withSpring
 } from 'react-native-reanimated';
 
-import api from '../../services/api';
+import { useAuth } from '../../hooks/auth';
+
 import { CarDTO } from '../../dtos/CarDTO';
+import api from '../../services/api';
 
 import { Header } from '../../components/Header';
 import { Car } from '../../components/Car';
@@ -33,6 +35,7 @@ export function Home() {
     const [cars, setCars] = useState<CarDTO[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const { user } = useAuth();
     const theme = useTheme();
     const navigation = useNavigation();
 
@@ -102,6 +105,16 @@ export function Home() {
         );
         return () => backHandler.remove();
     });
+
+    // useFocusEffect(() => {
+    //     if (user.token === '') {
+    //         navigation.navigate('Confirmation', {
+    //             nextScreenRoute: 'SignIn',
+    //             title: 'Login necessário',
+    //             message: `Você precisa realizar o login novamente para acessar a aplicação!`
+    //         });
+    //     }
+    // });
 
     return (
         <Container>

@@ -19,6 +19,10 @@ interface User {
     avatar: string;
     token: string;
 }
+interface UserSignOut {
+    id: string;
+    token: string;
+}
 
 interface AuthState {
     token: string;
@@ -33,7 +37,7 @@ interface SignInCredentials {
 interface AuthContextData {
     user: User;
     signIn: (credentials: SignInCredentials) => Promise<void>;
-    signOut: () => Promise<void>;
+    signOut: (user: UserSignOut) => Promise<void>;
     updatedUser: (user: User) => Promise<void>;
 }
 
@@ -61,13 +65,15 @@ function AuthProvider({ children }: AuthProviderProps) {
             await database.write(async () => {
                 await userCollection.create((newUser) => {
                     (newUser.user_id = user.id),
-                        (newUser.name = user.name),
+                        (newUser.name = token),
                         (newUser.email = user.email),
                         (newUser.driver_license = user.driver_license),
                         (newUser.avatar = user.avatar),
                         (newUser.token = token);
                 });
             });
+
+            console.log('SIGNIN TOKEN: ', token);
 
             setData({ ...user, token });
         } catch (error) {
@@ -87,6 +93,21 @@ function AuthProvider({ children }: AuthProviderProps) {
             throw new Error((error as Error).message);
         }
     }
+    // async function signOut(user: UserSignOut) {
+    //     try {
+    //         const userCollection = database.get<any>('users');
+    //         await database.write(async () => {
+    //             const userSelected = await userCollection.find(user.id);
+    //             userSelected.update((userData: { token: string }) => {
+    //                 userData.token = user.token;
+    //             });
+
+    //             setData({} as User);
+    //         });
+    //     } catch (error) {
+    //         throw new Error((error as Error).message);
+    //     }
+    // }
 
     async function updatedUser(user: User) {
         try {
@@ -100,6 +121,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 });
 
                 setData(user);
+                console.log('UPDATE USER TOKEN: ', user.token);
             });
         } catch (error) {
             throw new Error((error as Error).message);
@@ -110,8 +132,12 @@ function AuthProvider({ children }: AuthProviderProps) {
         async function loadUserData() {
             const userCollection = database.get<ModelUser>('users');
             const response = await userCollection.query().fetch();
+
             if (response.length > 0) {
                 const userData = response[0]._raw as unknown as User;
+
+                console.log('USER DATA INÍCIO Auth: ', userData.token);
+
                 api.defaults.headers.common[
                     'Authorization'
                 ] = `Bearer ${userData.token}`;

@@ -45,6 +45,8 @@ export function Profile() {
     const theme = useTheme();
     const navigation = useNavigation();
 
+    console.log('INÍCIO PERFIL: ', user.token);
+
     const [option, setOption] = useState<OptionProps>('dataEdit');
     const [avatar, setAvatar] = useState(user.avatar);
     const [name, setName] = useState(user.name);
@@ -54,7 +56,14 @@ export function Profile() {
         navigation.navigate<any>('Home');
     }
 
-    function handleSignOut() {
+    async function SignOut() {
+        await signOut({
+            id: user.id,
+            token: ''
+        });
+    }
+
+    async function handleSignOut() {
         Alert.alert(
             'Confirmar saída',
             'Quer mesmo sair da aplicação?',
@@ -65,7 +74,7 @@ export function Profile() {
                 },
                 {
                     text: 'Sair',
-                    onPress: () => signOut()
+                    onPress: () => SignOut()
                 }
             ],
             {
