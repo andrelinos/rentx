@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
+import * as Yup from 'yup';
 import {
     StatusBar,
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
-    Keyboard
+    Keyboard,
+    Alert
 } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +18,7 @@ import { Feather } from '@expo/vector-icons';
 
 import { BackButton } from '../../components/BackButton';
 import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
 import { PasswordInput } from '../../components/PasswordInput';
 
 import {
@@ -38,7 +41,7 @@ import {
 type OptionProps = 'dataEdit' | 'passwordEdit';
 
 export function Profile() {
-    const { user, signOut } = useAuth();
+    const { user, signOut, updatedUser } = useAuth();
     const theme = useTheme();
     const navigation = useNavigation();
 
@@ -52,7 +55,23 @@ export function Profile() {
     }
 
     function handleSignOut() {
-        signOut();
+        Alert.alert(
+            'Confirmar saída',
+            'Quer mesmo sair da aplicação?',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Sair',
+                    onPress: () => signOut()
+                }
+            ],
+            {
+                cancelable: true
+            }
+        );
     }
 
     function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit') {
@@ -69,6 +88,59 @@ export function Profile() {
 
         if (!result.cancelled) {
             setAvatar(result.uri);
+        }
+    }
+
+    function handleAvatarChange() {
+        Alert.alert(
+            'Tocar foto do perfil',
+            '',
+            [
+                {
+                    text: 'Cancelar',
+                    style: 'cancel'
+                },
+                {
+                    text: 'Remover',
+                    onPress: () => setAvatar('')
+                },
+                {
+                    text: 'Trocar',
+                    onPress: () => handleAvatarSelect()
+                }
+            ],
+            {
+                cancelable: true
+            }
+        );
+    }
+
+    async function handleProfileUpdate() {
+        try {
+            const schema = Yup.object().shape({
+                driverLicense: Yup.string().required('CNH é obrigatória'),
+                name: Yup.string().required('Nome é obrigatório')
+            });
+
+            const data = { name, driverLicense };
+            await schema.validate(data);
+
+            await updatedUser({
+                id: user.id,
+                user_id: user.user_id,
+                name,
+                email: user.email,
+                driver_license: user.driver_license,
+                avatar,
+                token: user.token
+            });
+            Alert.alert('Perfil atualizado com sucesso!');
+        } catch (error) {
+            if (error instanceof Yup.ValidationError) {
+                Alert.alert('Opa', error.message);
+            } else {
+                Alert.alert('Não foi possível atualizar o perfil');
+            }
         }
     }
 
@@ -113,7 +185,7 @@ export function Profile() {
                                     />
                                 </PhotoDefault>
                             )}
-                            <PhotoButton onPress={handleAvatarSelect}>
+                            <PhotoButton onPress={handleAvatarChange}>
                                 <Feather
                                     name="camera"
                                     size={24}
@@ -185,6 +257,10 @@ export function Profile() {
                                 />
                             </Section>
                         )}
+                        <Button
+                            title="Salvar alterações"
+                            onPress={handleProfileUpdate}
+                        />
                     </Content>
                 </Container>
             </TouchableWithoutFeedback>

@@ -53,6 +53,8 @@ export const Photo = styled.Image`
     border-radius: 90px;
     position: relative;
     overflow: hidden;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const PhotoDefault = styled.View`
