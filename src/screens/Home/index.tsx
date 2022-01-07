@@ -81,7 +81,7 @@ export function Home() {
                     setCars(response.data);
                 }
             } catch (error) {
-                console.log(error);
+                console.log((error as Error).message);
             } finally {
                 if (isMounted) {
                     setLoading(false);

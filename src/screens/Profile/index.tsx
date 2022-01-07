@@ -38,7 +38,7 @@ import {
 type OptionProps = 'dataEdit' | 'passwordEdit';
 
 export function Profile() {
-    const { user } = useAuth();
+    const { user, signOut } = useAuth();
     const theme = useTheme();
     const navigation = useNavigation();
 
@@ -51,7 +51,9 @@ export function Profile() {
         navigation.navigate<any>('Home');
     }
 
-    function handleSignOut() {}
+    function handleSignOut() {
+        signOut();
+    }
 
     function handleOptionChange(optionSelected: 'dataEdit' | 'passwordEdit') {
         setOption(optionSelected);
@@ -96,7 +98,7 @@ export function Profile() {
                         </HeaderTop>
 
                         <PhotoContainer>
-                            {avatar.length > 0 ? (
+                            {avatar ? (
                                 <Photo
                                     source={{
                                         uri: avatar
