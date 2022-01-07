@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+
+import { useAuth } from '../../hooks/auth';
 import { useTheme } from 'styled-components';
 
 import api from '../../services/api';
@@ -41,6 +43,7 @@ export function MyCars() {
     const [cars, setCars] = useState<CarProps[]>([]);
     const [loading, setLoading] = useState(true);
 
+    const { user } = useAuth();
     const theme = useTheme();
 
     const navigation = useNavigation();
@@ -51,7 +54,11 @@ export function MyCars() {
 
     async function fetchCars() {
         try {
-            const response = await api.get('/schedules_byuser?user_id=1');
+            const response = await api.get(
+                `/schedules_byuser?user_id=${user.id}`
+            );
+            console.log('RESPONSE', response);
+
             setCars(response.data);
         } catch (error) {
             console.log(error);
@@ -81,8 +88,12 @@ export function MyCars() {
             <Content>
                 {!loading && (
                     <Appointments>
-                        <AppointmentsTitle>Agendamentos feitos</AppointmentsTitle>
-                        <AppointmentsQuantity>{cars.length}</AppointmentsQuantity>
+                        <AppointmentsTitle>
+                            Agendamentos feitos
+                        </AppointmentsTitle>
+                        <AppointmentsQuantity>
+                            {cars.length}
+                        </AppointmentsQuantity>
                     </Appointments>
                 )}
 

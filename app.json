@@ -10,7 +10,15 @@
       "image": "./assets/splash.png",
       "backgroundColor": "#1B1B1F",
       "resizeMode": "cover"
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
   },
   "name": "rentx"
 }

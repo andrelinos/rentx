@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ImagePicker from 'expo-image-picker';
+import * as ImagePicker from 'expo-image-picker';
 import {
     StatusBar,
     KeyboardAvoidingView,
@@ -65,11 +65,7 @@ export function Profile() {
             quality: 1
         });
 
-        if (result.cancelled) {
-            return;
-        }
-
-        if (result.uri) {
+        if (!result.cancelled) {
             setAvatar(result.uri);
         }
     }
@@ -100,10 +96,10 @@ export function Profile() {
                         </HeaderTop>
 
                         <PhotoContainer>
-                            {avatar ? (
+                            {avatar.length > 0 ? (
                                 <Photo
                                     source={{
-                                        uri: user.avatar
+                                        uri: avatar
                                     }}
                                 />
                             ) : (
