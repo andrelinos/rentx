@@ -121,7 +121,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 });
 
                 setData(user);
-                console.log('UPDATE USER TOKEN: ', user.token);
+                console.log('UPDATE USER TOKEN: ', user);
             });
         } catch (error) {
             throw new Error((error as Error).message);
@@ -136,7 +136,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             if (response.length > 0) {
                 const userData = response[0]._raw as unknown as User;
 
-                console.log('USER DATA INÍCIO Auth: ', userData.token);
+                console.log('USER DATA INÍCIO Auth: ', userData);
 
                 api.defaults.headers.common[
                     'Authorization'
