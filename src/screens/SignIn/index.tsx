@@ -27,6 +27,7 @@ export function SignIn() {
 
     async function handleSignIn() {
         try {
+            console.log('Passei aqui signIn 1');
             const schema = Yup.object().shape({
                 password: Yup.string().required('Senha obrigatória'),
                 email: Yup.string()

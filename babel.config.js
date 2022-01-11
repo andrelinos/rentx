@@ -5,29 +5,33 @@ module.exports = function (api) {
         plugins: [
             'react-native-reanimated/plugin',
             ['@babel/plugin-proposal-decorators', { legacy: true }],
-            'module-resolver',
-            {
-                root: ['.'],
-                extensions: [
-                    '.ts',
-                    '.js',
-                    '.tsx',
-                    '.jsx',
-                    '.json',
-                    '.svg',
-                    '.jpg',
-                    '.png'
-                ],
-                alias: {
-                    '@components': './src/components',
-                    '@routes': './src/routes',
-                    '@screens': './src/screens',
-                    '@hooks': './src/hooks',
-                    '@assets': './src/assets',
-                    '@utils': './src/utils',
-                    '@styles': './src/styles'
+            '@babel/plugin-proposal-class-properties',
+            [
+                'module-resolver',
+                {
+                    root: ['./src/'],
+                    extensions: [
+                        '.ts',
+                        '.js',
+                        '.tsx',
+                        '.jsx',
+                        '.json',
+                        '.svg',
+                        '.jpg',
+                        '.png'
+                    ],
+
+                    alias: {
+                        '@components': './components/*',
+                        '@routes': './routes',
+                        '@screens': './screens',
+                        '@hooks': './hooks',
+                        '@assets': './assets',
+                        '@utils': './utils',
+                        '@styles': './styles'
+                    }
                 }
-            }
+            ]
         ]
     };
 };

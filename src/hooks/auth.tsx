@@ -9,6 +9,7 @@ import React, {
 import api from '../services/api';
 import { database } from '../database';
 import { User as ModelUser } from '../database/models/User';
+import { Alert } from 'react-native';
 
 interface User {
     id: string;
@@ -65,7 +66,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             await database.write(async () => {
                 await userCollection.create((newUser) => {
                     (newUser.user_id = user.id),
-                        (newUser.name = token),
+                        (newUser.name = user.name),
                         (newUser.email = user.email),
                         (newUser.driver_license = user.driver_license),
                         (newUser.avatar = user.avatar),
@@ -74,7 +75,6 @@ function AuthProvider({ children }: AuthProviderProps) {
             });
 
             console.log('SIGNIN TOKEN: ', token);
-
             setData({ ...user, token });
         } catch (error) {
             throw new Error((error as Error).message);
