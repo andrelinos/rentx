@@ -23,7 +23,7 @@ export function SignIn() {
 
     const theme = useTheme();
     const navigation = useNavigation();
-    const { signIn, user } = useAuth();
+    const { signIn } = useAuth();
 
     async function handleSignIn() {
         try {

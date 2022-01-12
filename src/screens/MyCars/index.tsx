@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
+import { format, parseISO } from 'date-fns';
 
 import { useAuth } from '../../hooks/auth';
 import { useTheme } from 'styled-components';
@@ -35,8 +36,8 @@ export interface CarProps {
     id: string;
     user_id: string;
     car: CarDTO;
-    startDate: string;
-    endDate: string;
+    start_date: string;
+    end_date: string;
 }
 
 export function MyCars() {
@@ -54,9 +55,16 @@ export function MyCars() {
 
     async function fetchCars() {
         try {
-            const response = await api.get(
-                `/schedules_byuser?user_id=${user.id}`
-            );
+            const response = await api.get('/rentals');
+
+            const formattedData = response.data.map((data: CarProps) => {
+                return {
+                    id: data.id,
+                    car: data.car,
+                    start_date: format(parseISO(data.start_date), 'dd/MM/yyyy'),
+                    end_date: format(parseISO(data.end_date), 'dd/MM/yyyy')
+                };
+            });
             console.log('RESPONSE', response);
 
             setCars(response.data);

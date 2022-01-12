@@ -58,8 +58,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 password
             });
 
-            const { user } = response.data;
-            // const { token, user } = response.data;
+            const { token, user } = response.data;
             console.log('SigIn', data.token, user);
 
             api.defaults.headers.common[
@@ -87,7 +86,7 @@ function AuthProvider({ children }: AuthProviderProps) {
             });
 
             console.log('SIGNIN TOKEN: ', response.data.token);
-            // setData({ ...user, token });
+            setData({ ...user, token });
             // setData({
             //     id,
             //     user_id,
@@ -110,6 +109,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 const userSelected = await userCollection.find(data.id);
                 userSelected.destroyPermanently;
             });
+            console.log('Finalizado');
             setData({} as User);
         } catch (error) {
             throw new Error((error as Error).message);
