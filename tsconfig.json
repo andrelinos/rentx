@@ -2,46 +2,6 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true,
-    "experimentalDecorators": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "skipLibCheck": false,
-    "target": "esnext",
-    "module": "commonjs",
-    "allowJs": true,
-    "lib": [
-      "ES2017"
-    ],
-    "jsx": "react-native",
-    "noEmit": true,
-    "isolatedModules": true,
-    "baseUrl": "./",
-    "paths": {
-      "*": [
-        "src/*"
-      ],
-      "@components/*": [
-        "./src/components"
-      ],
-      "@routes": [
-        "./src/routes"
-      ],
-      "@screens": [
-        "./src/screens"
-      ],
-      "@utils": [
-        "./src/utils"
-      ],
-      "@hooks": [
-        "./src/hooks"
-      ],
-      "@styles": [
-        "./src/styles"
-      ],
-      "underscore": [
-        "lodash"
-      ]
-    }
+    "experimentalDecorators": true
   }
 }

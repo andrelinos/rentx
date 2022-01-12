@@ -58,26 +58,48 @@ function AuthProvider({ children }: AuthProviderProps) {
                 password
             });
 
-            const { token, user } = response.data;
+            const { user } = response.data;
+            // const { token, user } = response.data;
+            console.log('SigIn', data.token, user);
 
-            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+            api.defaults.headers.common[
+                'Authorization'
+            ] = `Bearer ${data.token}`;
 
             const userCollection = database.get<ModelUser>('users');
             await database.write(async () => {
-                await userCollection.create((newUser) => {
+                const {
+                    id,
+                    user_id,
+                    name,
+                    avatar,
+                    driver_license,
+                    email,
+                    token
+                } = await userCollection.create((newUser) => {
                     (newUser.user_id = user.id),
                         (newUser.name = user.name),
                         (newUser.email = user.email),
                         (newUser.driver_license = user.driver_license),
                         (newUser.avatar = user.avatar),
-                        (newUser.token = token);
+                        (newUser.token = response.data.token);
                 });
             });
 
-            console.log('SIGNIN TOKEN: ', token);
-            setData({ ...user, token });
+            console.log('SIGNIN TOKEN: ', response.data.token);
+            // setData({ ...user, token });
+            // setData({
+            //     id,
+            //     user_id,
+            //     name,
+            //     avatar,
+            //     driver_license,
+            //     email,
+            //     token: response.data.token
+            // });
         } catch (error) {
-            throw new Error((error as Error).message);
+            //  throw new Error((error as Error).message);
+            console.error((error as Error).message);
         }
     }
 

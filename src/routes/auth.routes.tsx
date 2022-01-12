@@ -10,7 +10,6 @@ import { SignUpSecondStep } from '../screens/SignUp/SignUpSecondStep';
 const { Navigator, Screen } = createStackNavigator();
 
 export function AuthRoutes() {
-
     return (
         <Navigator
             screenOptions={{
