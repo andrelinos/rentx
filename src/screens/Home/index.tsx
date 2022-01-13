@@ -1,11 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BackHandler, StatusBar, StyleSheet } from 'react-native';
-import {
-    CommonActions,
-    useFocusEffect,
-    useNavigation,
-    StackRouter
-} from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
@@ -24,7 +19,6 @@ import api from '../../services/api';
 
 import { Header } from '../../components/Header';
 import { Car } from '../../components/Car';
-import { Load } from '../../components/Load';
 import { LoadAnimated } from '../../components/LoadAnimated';
 
 import { CarsList, Container } from './styles';
@@ -106,15 +100,13 @@ export function Home() {
         return () => backHandler.remove();
     });
 
-    // useFocusEffect(() => {
-    //     if (user.token === '') {
-    //         navigation.navigate('Confirmation', {
-    //             nextScreenRoute: 'SignIn',
-    //             title: 'Login necessário',
-    //             message: `Você precisa realizar o login novamente para acessar a aplicação!`
-    //         });
-    //     }
-    // });
+    useFocusEffect(() => {
+        if (user.token === '') {
+            console.log('Usuário não logado...');
+        } else {
+            console.log('Usuário logado...');
+        }
+    });
 
     return (
         <Container>

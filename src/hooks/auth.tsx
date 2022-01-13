@@ -59,46 +59,25 @@ function AuthProvider({ children }: AuthProviderProps) {
             });
 
             const { token, user } = response.data;
-            console.log('SigIn', data.token, user);
+            console.log('SigIn', token, user);
 
-            api.defaults.headers.common[
-                'Authorization'
-            ] = `Bearer ${data.token}`;
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
             const userCollection = database.get<ModelUser>('users');
             await database.write(async () => {
-                const {
-                    id,
-                    user_id,
-                    name,
-                    avatar,
-                    driver_license,
-                    email,
-                    token
-                } = await userCollection.create((newUser) => {
+                await userCollection.create((newUser) => {
                     (newUser.user_id = user.id),
                         (newUser.name = user.name),
                         (newUser.email = user.email),
                         (newUser.driver_license = user.driver_license),
                         (newUser.avatar = user.avatar),
-                        (newUser.token = response.data.token);
+                        (newUser.token = token);
                 });
             });
 
-            console.log('SIGNIN TOKEN: ', response.data.token);
             setData({ ...user, token });
-            // setData({
-            //     id,
-            //     user_id,
-            //     name,
-            //     avatar,
-            //     driver_license,
-            //     email,
-            //     token: response.data.token
-            // });
         } catch (error) {
-            //  throw new Error((error as Error).message);
-            console.error((error as Error).message);
+            throw new Error((error as Error).message);
         }
     }
 
@@ -143,7 +122,6 @@ function AuthProvider({ children }: AuthProviderProps) {
                 });
 
                 setData(user);
-                console.log('UPDATE USER TOKEN: ', user);
             });
         } catch (error) {
             throw new Error((error as Error).message);
@@ -157,12 +135,14 @@ function AuthProvider({ children }: AuthProviderProps) {
 
             if (response.length > 0) {
                 const userData = response[0]._raw as unknown as User;
-
-                console.log('USER DATA INÍCIO Auth: ', userData);
+                console.log('USUÁRIO LOGADO =>', userData);
 
                 api.defaults.headers.common[
                     'Authorization'
                 ] = `Bearer ${userData.token}`;
+
+                console.log('Token deveria estar aqui: ', response);
+
                 setData(userData);
             }
         }

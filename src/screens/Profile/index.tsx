@@ -9,7 +9,7 @@ import {
     Alert
 } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 
 import { useAuth } from '../../hooks/auth';
@@ -44,8 +44,6 @@ export function Profile() {
     const { user, signOut, updatedUser } = useAuth();
     const theme = useTheme();
     const navigation = useNavigation();
-
-    console.log('INÍCIO PERFIL: ', user.token);
 
     const [option, setOption] = useState<OptionProps>('dataEdit');
     const [avatar, setAvatar] = useState(user.avatar);
@@ -152,6 +150,14 @@ export function Profile() {
             }
         }
     }
+
+    useFocusEffect(() => {
+        if (user.token === '') {
+            console.log('Usuário não logado...');
+        } else {
+            console.log('Usuário logado...');
+        }
+    });
 
     return (
         <KeyboardAvoidingView behavior="position">

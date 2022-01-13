@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { format, parseISO } from 'date-fns';
 
@@ -11,7 +11,6 @@ import api from '../../services/api';
 import { CarDTO } from '../../dtos/CarDTO';
 
 import { Car } from '../../components/Car';
-import { Load } from '../../components/Load';
 import { LoadAnimated } from '../../components/LoadAnimated';
 import { BackButton } from '../../components/BackButton';
 
@@ -78,6 +77,14 @@ export function MyCars() {
     useEffect(() => {
         fetchCars();
     }, []);
+
+    useFocusEffect(() => {
+        if (user.token === '') {
+            console.log('Usuário não logado...');
+        } else {
+            console.log('Usuário logado...');
+        }
+    });
 
     return (
         <Container>
