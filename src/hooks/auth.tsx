@@ -124,6 +124,7 @@ function AuthProvider({ children }: AuthProviderProps) {
                 setData(user);
             });
         } catch (error) {
+            console.log(error);
             throw new Error((error as Error).message);
         }
     }
@@ -139,13 +140,13 @@ function AuthProvider({ children }: AuthProviderProps) {
                 const { id, name, driver_license, avatar, email, token } =
                     userData;
                 console.log(
-                    'USUÁRIO LOGADO =>',
-                    { ID: id },
-                    { Nome: name },
-                    { CNH: driver_license },
-                    { AVATAR: avatar },
-                    { Email: email },
-                    { Token: token }
+                    '\n USUÁRIO LOGADO: \n',
+                    { ID: id + '\n' },
+                    { Nome: name + '\n' },
+                    { CNH: driver_license + '\n' },
+                    { AVATAR: avatar + '\n' },
+                    { Email: email + '\n' },
+                    { Token: token + '\n' }
                 );
 
                 api.defaults.headers.common[
