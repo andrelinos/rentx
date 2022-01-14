@@ -64,7 +64,8 @@ export function Profile() {
     async function handleSignOut() {
         Alert.alert(
             'Confirmar saída',
-            'Quer mesmo sair da aplicação?',
+            'Se você sair, irá precisar de internet para conectar-se novamente.' +
+                '\n Tem certeza?',
             [
                 {
                     text: 'Cancelar',

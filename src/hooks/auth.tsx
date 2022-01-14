@@ -135,13 +135,24 @@ function AuthProvider({ children }: AuthProviderProps) {
 
             if (response.length > 0) {
                 const userData = response[0]._raw as unknown as User;
-                console.log('USUÁRIO LOGADO =>', userData);
+
+                const { id, name, driver_license, avatar, email, token } =
+                    userData;
+                console.log(
+                    'USUÁRIO LOGADO =>',
+                    { ID: id },
+                    { Nome: name },
+                    { CNH: driver_license },
+                    { AVATAR: avatar },
+                    { Email: email },
+                    { Token: token }
+                );
 
                 api.defaults.headers.common[
                     'Authorization'
                 ] = `Bearer ${userData.token}`;
 
-                console.log('Token deveria estar aqui: ', response);
+                // console.log('Token deveria estar aqui: ', response);
 
                 setData(userData);
             }
