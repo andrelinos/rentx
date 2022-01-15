@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Alert, BackHandler, StatusBar, StyleSheet } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { BackHandler, StatusBar, StyleSheet } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useTheme } from 'styled-components';
 import { RectButton, PanGestureHandler } from 'react-native-gesture-handler';
@@ -7,15 +7,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { synchronize } from '@nozbe/watermelondb/sync';
 
-import { database } from '../../database';
-import api from '../../services/api';
-
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   useAnimatedGestureHandler,
   withSpring,
 } from 'react-native-reanimated';
+
+import { database } from '../../database';
+import api from '../../services/api';
 
 import { useAuth } from '../../hooks/auth';
 import { CarDTO } from '../../dtos/CarDTO';
@@ -34,9 +34,10 @@ export function Home() {
   const [loading, setLoading] = useState(true);
 
   const { user } = useAuth();
-  const netInfo = useNetInfo();
   const theme = useTheme();
   const navigation = useNavigation();
+  const netInfo = useNetInfo();
+  const synchronizing = useRef(false);
 
   const positionX = useSharedValue(0);
   const positionY = useSharedValue(0);
@@ -66,6 +67,7 @@ export function Home() {
   });
 
   function handleCarDetails(car: CarDTO) {
+    // console.warn('\n CAR HOME SEND \n', car);
     navigation.navigate('CarDetails', { car });
   }
 
@@ -73,40 +75,17 @@ export function Home() {
     navigation.navigate('MyCars');
   }
 
-  async function offlineSynchronize() {
-    await synchronize({
-      database,
-      pullChanges: async ({ lastPulledAt }) => {
-        const response = await api.get(
-          `cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`
-        );
-        console.log('USER CHANGES:', response);
-
-        const { changes, latestVersion } = response.data;
-        return { changes, timestamp: latestVersion };
-      },
-      pullChanges: async ({ changes }) => {
-        const user = changes.users;
-        console.log('USER CHANGES:', user);
-        await api.post('/users/sync', user);
-      },
-    });
-  }
-
   useEffect(() => {
     let isMounted = true;
 
     async function fetchCars() {
       try {
-        // const response = await api.get('/cars');
-        const carCollection = database.get<ModelCar>('/cars');
+        const carCollection = database.get<ModelCar>('cars');
         const cars = await carCollection.query().fetch();
 
         if (isMounted) {
           setCars(cars);
         }
-
-        console.log('CARS LIST:', cars);
       } catch (error) {
         console.log((error as Error).message);
       } finally {
@@ -139,13 +118,39 @@ export function Home() {
   });
 
   useEffect(() => {
-    if (netInfo.isConnected) {
-      Alert.alert('Você está On-Line');
-      // offlineSynchronize();
-    } else {
-      Alert.alert('Você está Off-Line');
-    }
+    const syncChanges = async () => {
+      if (netInfo.isConnected && !synchronizing.current) {
+        synchronizing.current = true;
+        try {
+          await synchronize({
+            database,
+            pullChanges: async ({ lastPulledAt }) => {
+              const response = await api.get(
+                `cars/sync/pull?lastPulledVersion=${lastPulledAt || 0}`
+              );
+
+              const { changes, latestVersion } = response.data;
+
+              console.log('*** CHANGES ***', changes);
+              return { changes, timestamp: latestVersion };
+            },
+            pushChanges: async ({ changes }) => {
+              const user = changes.users;
+
+              await api.post('/users/sync', user);
+            },
+          });
+        } catch (error) {
+          console.log((error as Error).message);
+        } finally {
+          synchronizing.current = false;
+        }
+      }
+    };
+    syncChanges();
   }, [netInfo.isConnected]);
+
+  console.log(cars);
 
   return (
     <Container>
@@ -167,7 +172,7 @@ export function Home() {
       ) : (
         <CarsList
           data={cars}
-          keyExtractor={item => item.id}
+          keyExtractor={item => String(item.id)}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
             <Car data={item} onPress={() => handleCarDetails(item)} />

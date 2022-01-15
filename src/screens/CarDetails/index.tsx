@@ -76,6 +76,7 @@ export function CarDetails() {
   });
 
   const { car } = route.params as Params;
+  console.log('\n CAR \n', car);
 
   function handleConfirmRental() {
     setLoading(true);
