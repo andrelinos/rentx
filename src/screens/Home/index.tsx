@@ -18,7 +18,6 @@ import { database } from '../../database';
 import api from '../../services/api';
 
 import { useAuth } from '../../hooks/auth';
-import { CarDTO } from '../../dtos/CarDTO';
 
 import { Car } from '../../components/Car';
 import { Car as ModelCar } from '../../database/models/Car';
@@ -66,7 +65,7 @@ export function Home() {
     },
   });
 
-  function handleCarDetails(car: CarDTO) {
+  function handleCarDetails(car: ModelCar) {
     // console.warn('\n CAR HOME SEND \n', car);
     navigation.navigate('CarDetails', { car });
   }
@@ -81,10 +80,10 @@ export function Home() {
     async function fetchCars() {
       try {
         const carCollection = database.get<ModelCar>('cars');
-        const cars = await carCollection.query().fetch();
+        const carsList = await carCollection.query().fetch();
 
         if (isMounted) {
-          setCars(cars);
+          setCars(carsList);
         }
       } catch (error) {
         console.log((error as Error).message);
