@@ -1,10 +1,10 @@
 import styled from 'styled-components/native';
-import { FlatList } from 'react-native';
+import { FlatList, FlatListProps } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import Animated from 'react-native-reanimated';
 
-import { Car } from '../../database/models/Car';
+import { Car as ModelCar } from '../../database/models/Car';
 
 const ButtonAnimated = Animated.createAnimatedComponent(RectButton);
 
@@ -13,7 +13,9 @@ export const Container = styled.View`
   background-color: ${({ theme }) => theme.colors.background_primary};
 `;
 
-export const CarsList = styled(FlatList as new () => FlatList<Car>).attrs({
+export const CarsList = styled(
+  FlatList as new (props: FlatListProps<ModelCar>) => FlatList<ModelCar>
+).attrs({
   contentContainerStyle: {
     padding: 24,
   },

@@ -66,7 +66,6 @@ export function Home() {
   });
 
   function handleCarDetails(car: ModelCar) {
-    // console.warn('\n CAR HOME SEND \n', car);
     navigation.navigate('CarDetails', { car });
   }
 
@@ -130,7 +129,6 @@ export function Home() {
 
               const { changes, latestVersion } = response.data;
 
-              console.log('*** CHANGES ***', changes);
               return { changes, timestamp: latestVersion };
             },
             pushChanges: async ({ changes }) => {
@@ -148,8 +146,6 @@ export function Home() {
     };
     syncChanges();
   }, [netInfo.isConnected]);
-
-  console.log(cars);
 
   return (
     <Container>

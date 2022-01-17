@@ -10,8 +10,6 @@ import { LoadAnimated } from '../components/LoadAnimated';
 export function Routes() {
   const { user, loading } = useAuth();
 
-  // console.log(user);
-
   return loading ? (
     <LoadAnimated />
   ) : (

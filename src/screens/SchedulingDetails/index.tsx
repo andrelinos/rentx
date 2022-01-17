@@ -19,193 +19,188 @@ import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
 import { CarDTO } from '../../dtos/CarDTO';
 
 import {
-    Container,
-    Header,
-    CarImagesContainer,
-    Content,
-    Details,
-    Description,
-    Brand,
-    Name,
-    Rent,
-    Period,
-    Price,
-    Accessories,
-    Footer,
-    RetailPeriod,
-    CalendarIcon,
-    DateInfo,
-    DateTitle,
-    DateValue,
-    RetalPrice,
-    RentalPriceLabel,
-    RetalPriceDetails,
-    RentalPriceQuota,
-    RentalPriceTotal
+  Container,
+  Header,
+  CarImagesContainer,
+  Content,
+  Details,
+  Description,
+  Brand,
+  Name,
+  Rent,
+  Period,
+  Price,
+  Accessories,
+  Footer,
+  RetailPeriod,
+  CalendarIcon,
+  DateInfo,
+  DateTitle,
+  DateValue,
+  RetalPrice,
+  RentalPriceLabel,
+  RetalPriceDetails,
+  RentalPriceQuota,
+  RentalPriceTotal,
 } from './styles';
 
 interface Params {
-    car: CarDTO;
-    dates: string[];
+  car: CarDTO;
+  dates: string[];
 }
 
 interface RentalPeriod {
-    start: string;
-    end: string;
+  start: string;
+  end: string;
 }
 
 export function SchedulingDetails() {
-    const [loading, setLoading] = useState(false);
-    const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
-        {} as RentalPeriod
-    );
+  const [loading, setLoading] = useState(false);
+  const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
+    {} as RentalPeriod
+  );
 
-    const theme = useTheme();
-    const navigation = useNavigation();
-    const route = useRoute();
+  const theme = useTheme();
+  const navigation = useNavigation();
+  const route = useRoute();
 
-    const { car, dates } = route.params as Params;
+  const { car, dates } = route.params as Params;
 
-    const rentTotal = Number(dates.length * car.price);
+  const rentTotal = Number(dates.length * car.price);
 
-    function handleBack() {
-        navigation.goBack();
-    }
+  function handleBack() {
+    navigation.goBack();
+  }
 
-    async function handleConfirmRental() {
-        setLoading(true);
+  async function handleConfirmRental() {
+    setLoading(true);
 
-        const response = await api.get(`/schedules_bycars/${car.id}`);
+    const response = await api.get(`/schedules_bycars/${car.id}`);
 
-        const schedulesByCar = response.data;
+    const schedulesByCar = response.data;
 
-        const unavailable_dates = [
-            ...schedulesByCar.unavailable_dates,
-            ...dates
-        ];
+    const unavailable_dates = [...schedulesByCar.unavailable_dates, ...dates];
 
-        await api.post(`/schedules_byuser`, {
-            user_id: 1,
-            car,
-            startDate: format(
-                getPlatformDate(new Date(dates[0])),
-                'dd/MM/yyyy'
-            ),
-            endDate: format(
-                getPlatformDate(new Date(dates[dates.length - 1])),
-                'dd/MM/yyyy'
-            )
+    await api.post(`/schedules_byuser`, {
+      user_id: 1,
+      car,
+      startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      endDate: format(
+        getPlatformDate(new Date(dates[dates.length - 1])),
+        'dd/MM/yyyy'
+      ),
+    });
+
+    // Alternativa ao async-wait
+    api
+      .put(`/schedules_bycars/${car.id}`, {
+        id: car.id,
+        unavailable_dates,
+      })
+      .then(() => {
+        navigation.navigate('Confirmation', {
+          nextScreenRoute: 'MyCars',
+          title: 'Carro alugado!',
+          message: `Agora você só precisa ir\naté uma concessionária da RENTX\ne pegar seu carro!`,
         });
+      })
+      .catch(() => {
+        Alert.alert('Não foi possível realizar o agendamento.');
+        setLoading(false);
+      });
+  }
 
-        // Alternativa ao async-wait
-        api.put(`/schedules_bycars/${car.id}`, {
-            id: car.id,
-            unavailable_dates
-        })
-            .then(() => {
-                navigation.navigate('Confirmation', {
-                    nextScreenRoute: 'MyCars',
-                    title: 'Carro alugado!',
-                    message: `Agora você só precisa ir\naté uma concessionária da RENTX\ne pegar seu carro!`
-                });
-            })
-            .catch(() => {
-                Alert.alert('Não foi possível realizar o agendamento.');
-                setLoading(false);
-            });
-    }
+  useEffect(() => {
+    setRentalPeriod({
+      start: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
+      end: format(
+        getPlatformDate(new Date(dates[dates.length - 1])),
+        'dd/MM/yyyy'
+      ),
+    });
+  }, []);
 
-    useEffect(() => {
-        setRentalPeriod({
-            start: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
-            end: format(
-                getPlatformDate(new Date(dates[dates.length - 1])),
-                'dd/MM/yyyy'
-            )
-        });
-    }, []);
+  return (
+    <Container>
+      <StatusBar
+        barStyle="dark-content"
+        backgroundColor="transparent"
+        translucent
+      />
+      <Header>
+        <BackButton onPress={handleBack} />
+      </Header>
+      <CarImagesContainer>
+        <ImageSlider key="1" imagesUrl={car.photos} />
+      </CarImagesContainer>
 
-    return (
-        <Container>
-            <StatusBar
-                barStyle="dark-content"
-                backgroundColor="transparent"
-                translucent
+      <Content>
+        <Details>
+          <Description>
+            <Brand>{car.brand}i</Brand>
+            <Name>{car.name}</Name>
+          </Description>
+          <Rent>
+            <Period>{car.period}</Period>
+            <Price>R$ {car.price}</Price>
+          </Rent>
+        </Details>
+
+        <Accessories>
+          {car?.accessories?.map(accessory => (
+            <Accessory
+              key={accessory.type}
+              name={accessory.name}
+              icon={getAccessoryIcon(accessory.type)}
             />
-            <Header>
-                <BackButton onPress={handleBack} />
-            </Header>
-            <CarImagesContainer>
-                <ImageSlider key="1" imagesUrl={car.photos} />
-            </CarImagesContainer>
+          ))}
+        </Accessories>
 
-            <Content>
-                <Details>
-                    <Description>
-                        <Brand>{car.brand}i</Brand>
-                        <Name>{car.name}</Name>
-                    </Description>
-                    <Rent>
-                        <Period>{car.period}</Period>
-                        <Price>R$ {car.price}</Price>
-                    </Rent>
-                </Details>
+        <RetailPeriod>
+          <CalendarIcon>
+            <Feather
+              name="calendar"
+              size={RFValue(24)}
+              color={theme.colors.shape}
+            />
+          </CalendarIcon>
 
-                <Accessories>
-                    {car.accessories.map((accessory) => (
-                        <Accessory
-                            key={accessory.type}
-                            name={accessory.name}
-                            icon={getAccessoryIcon(accessory.type)}
-                        />
-                    ))}
-                </Accessories>
+          <DateInfo>
+            <DateTitle>DE</DateTitle>
+            <DateValue>{rentalPeriod.start}</DateValue>
+          </DateInfo>
 
-                <RetailPeriod>
-                    <CalendarIcon>
-                        <Feather
-                            name="calendar"
-                            size={RFValue(24)}
-                            color={theme.colors.shape}
-                        />
-                    </CalendarIcon>
+          <Feather
+            name="chevron-right"
+            size={RFValue(24)}
+            color={theme.colors.text}
+          />
 
-                    <DateInfo>
-                        <DateTitle>DE</DateTitle>
-                        <DateValue>{rentalPeriod.start}</DateValue>
-                    </DateInfo>
+          <DateInfo>
+            <DateTitle>ATÉ</DateTitle>
+            <DateValue>{rentalPeriod.end}</DateValue>
+          </DateInfo>
+        </RetailPeriod>
 
-                    <Feather
-                        name="chevron-right"
-                        size={RFValue(24)}
-                        color={theme.colors.text}
-                    />
-
-                    <DateInfo>
-                        <DateTitle>ATÉ</DateTitle>
-                        <DateValue>{rentalPeriod.end}</DateValue>
-                    </DateInfo>
-                </RetailPeriod>
-
-                <RetalPrice>
-                    <RentalPriceLabel>TOTAL</RentalPriceLabel>
-                    <RetalPriceDetails>
-                        <RentalPriceQuota>
-                            {`R$ ${car.price} x${dates.length} diárias`}
-                        </RentalPriceQuota>
-                        <RentalPriceTotal>R$ {rentTotal}</RentalPriceTotal>
-                    </RetalPriceDetails>
-                </RetalPrice>
-            </Content>
-            <Footer>
-                <Button
-                    title="Alugar agora"
-                    color={theme.colors.success}
-                    onPress={handleConfirmRental}
-                    enabled={!loading}
-                    loading={loading}
-                />
-            </Footer>
-        </Container>
-    );
+        <RetalPrice>
+          <RentalPriceLabel>TOTAL</RentalPriceLabel>
+          <RetalPriceDetails>
+            <RentalPriceQuota>
+              {`R$ ${car.price} x${dates.length} diárias`}
+            </RentalPriceQuota>
+            <RentalPriceTotal>R$ {rentTotal}</RentalPriceTotal>
+          </RetalPriceDetails>
+        </RetalPrice>
+      </Content>
+      <Footer>
+        <Button
+          title="Alugar agora"
+          color={theme.colors.success}
+          onPress={handleConfirmRental}
+          enabled={!loading}
+          loading={loading}
+        />
+      </Footer>
+    </Container>
+  );
 }

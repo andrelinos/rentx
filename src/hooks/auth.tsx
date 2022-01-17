@@ -61,7 +61,6 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
 
       const { token, user } = response.data;
-      console.log('SigIn', token, user);
 
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
@@ -90,7 +89,6 @@ function AuthProvider({ children }: AuthProviderProps) {
         const userSelected = await userCollection.find(data.id);
         userSelected.destroyPermanently;
       });
-      console.log('Finalizado');
       setData({} as User);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -139,21 +137,10 @@ function AuthProvider({ children }: AuthProviderProps) {
         const userData = response[0]._raw as unknown as User;
 
         const { id, name, driver_license, avatar, email, token } = userData;
-        console.log(
-          '\n USUÁRIO LOGADO: \n',
-          { ID: id + '\n' },
-          { Nome: name + '\n' },
-          { CNH: driver_license + '\n' },
-          { AVATAR: avatar + '\n' },
-          { Email: email + '\n' },
-          { Token: token + '\n' }
-        );
 
         api.defaults.headers.common[
           'Authorization'
         ] = `Bearer ${userData.token}`;
-
-        // console.log('Token deveria estar aqui: ', response);
 
         setData(userData);
         setLoading(false);
