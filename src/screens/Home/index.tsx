@@ -32,7 +32,7 @@ export function Home() {
   const [cars, setCars] = useState<ModelCar[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const theme = useTheme();
   const navigation = useNavigation();
   const netInfo = useNetInfo();
@@ -73,9 +73,16 @@ export function Home() {
     navigation.navigate('MyCars');
   }
 
+  async function SignOut() {
+    await signOut({
+      id: user.id,
+      token: '',
+    });
+  }
+
   useEffect(() => {
     let isMounted = true;
-    signOut();
+    // SignOut();
 
     async function fetchCars() {
       try {
@@ -212,6 +219,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-function signOut() {
-  throw new Error('Function not implemented.');
-}
