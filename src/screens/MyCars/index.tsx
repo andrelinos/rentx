@@ -53,28 +53,27 @@ export function MyCars() {
     navigation.navigate<any>('Home');
   }
 
-  async function fetchCars() {
-    try {
-      const response = await api.get('/rentals');
-
-      const formattedData = response.data.map((data: CarProps) => {
-        return {
-          id: data.id,
-          car: data.car,
-          start_date: format(parseISO(data.start_date), 'dd/MM/yyyy'),
-          end_date: format(parseISO(data.end_date), 'dd/MM/yyyy'),
-        };
-      });
-
-      setCars(formattedData);
-    } catch (error) {
-      console.log((error as Error).message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
+    async function fetchCars() {
+      try {
+        const response = await api.get('/rentals');
+
+        const formattedData = response.data.map((data: CarProps) => {
+          return {
+            id: data.id,
+            car: data.car,
+            start_date: format(parseISO(data.start_date), 'dd/MM/yyyy'),
+            end_date: format(parseISO(data.end_date), 'dd/MM/yyyy'),
+          };
+        });
+
+        setCars(formattedData);
+      } catch (error) {
+        console.log((error as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    }
     fetchCars();
   }, []);
 
