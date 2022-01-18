@@ -103,6 +103,7 @@ export function CarDetails() {
       fetchCarUpdated();
     }
   }, [netInfo.isConnected]);
+
   return (
     <Container>
       <StatusBar

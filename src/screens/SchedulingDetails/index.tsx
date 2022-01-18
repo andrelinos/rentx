@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import format from 'date-fns/format';
+import { useNetInfo } from '@react-native-community/netinfo';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { Alert, StatusBar } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { Feather } from '@expo/vector-icons';
 import { useTheme } from 'styled-components';
-import format from 'date-fns/format';
 
+import { CarDTO } from '../../dtos/CarDTO';
 import api from '../../services/api';
+import { useAuth } from '../../hooks/auth';
 
 import { getPlatformDate } from '../../utils/getPlatformDate';
 
@@ -15,8 +18,6 @@ import { ImageSlider } from '../../components/ImageSlider';
 import { Accessory } from '../../components/Accessory';
 import { Button } from '../../components/Button';
 import { getAccessoryIcon } from '../../utils/getAccessoryIcon';
-
-import { CarDTO } from '../../dtos/CarDTO';
 
 import {
   Container,
@@ -55,14 +56,17 @@ interface RentalPeriod {
 }
 
 export function SchedulingDetails() {
+  const [carUpdated, setCarUpdated] = useState<CarDTO>({} as CarDTO);
   const [loading, setLoading] = useState(false);
   const [rentalPeriod, setRentalPeriod] = useState<RentalPeriod>(
     {} as RentalPeriod
   );
 
+  const { user } = useAuth();
   const theme = useTheme();
   const navigation = useNavigation();
   const route = useRoute();
+  const netInfo = useNetInfo();
 
   const { car, dates } = route.params as Params;
 
@@ -75,27 +79,13 @@ export function SchedulingDetails() {
   async function handleConfirmRental() {
     setLoading(true);
 
-    const response = await api.get(`/schedules_bycars/${car.id}`);
-
-    const schedulesByCar = response.data;
-
-    const unavailable_dates = [...schedulesByCar.unavailable_dates, ...dates];
-
-    await api.post(`/schedules_byuser`, {
-      user_id: 1,
-      car,
-      startDate: format(getPlatformDate(new Date(dates[0])), 'dd/MM/yyyy'),
-      endDate: format(
-        getPlatformDate(new Date(dates[dates.length - 1])),
-        'dd/MM/yyyy'
-      ),
-    });
-
-    // Alternativa ao async-wait
-    api
-      .put(`/schedules_bycars/${car.id}`, {
-        id: car.id,
-        unavailable_dates,
+    await api
+      .post('rentals', {
+        user_id: 1,
+        car_id: car.id,
+        start_date: new Date(dates[0]),
+        end_date: new Date(dates[dates.length - 1]),
+        total: rentTotal,
       })
       .then(() => {
         navigation.navigate('Confirmation', {
@@ -104,9 +94,10 @@ export function SchedulingDetails() {
           message: `Agora você só precisa ir\naté uma concessionária da RENTX\ne pegar seu carro!`,
         });
       })
-      .catch(() => {
+      .catch(error => {
         Alert.alert('Não foi possível realizar o agendamento.');
         setLoading(false);
+        throw new Error((error as Error).message);
       });
   }
 
@@ -120,6 +111,16 @@ export function SchedulingDetails() {
     });
   }, []);
 
+  useEffect(() => {
+    async function fetchCarUpdated() {
+      const response = await api.get(`/cars/${car.id}`);
+      setCarUpdated(response.data);
+    }
+    if (netInfo.isConnected === true) {
+      fetchCarUpdated();
+    }
+  }, [netInfo.isConnected]);
+
   return (
     <Container>
       <StatusBar
@@ -131,7 +132,14 @@ export function SchedulingDetails() {
         <BackButton onPress={handleBack} />
       </Header>
       <CarImagesContainer>
-        <ImageSlider key="1" imagesUrl={car.photos} />
+        <ImageSlider
+          key={car.id}
+          imagesUrl={
+            !!carUpdated.photos
+              ? carUpdated.photos
+              : [{ id: car.thumbnail, photo: car.thumbnail }]
+          }
+        />
       </CarImagesContainer>
 
       <Content>
@@ -146,15 +154,17 @@ export function SchedulingDetails() {
           </Rent>
         </Details>
 
-        <Accessories>
-          {car?.accessories?.map(accessory => (
-            <Accessory
-              key={accessory.type}
-              name={accessory.name}
-              icon={getAccessoryIcon(accessory.type)}
-            />
-          ))}
-        </Accessories>
+        {carUpdated.accessories && (
+          <Accessories>
+            {carUpdated.accessories.map(accessory => (
+              <Accessory
+                key={accessory.type}
+                name={accessory.name}
+                icon={getAccessoryIcon(accessory.type)}
+              />
+            ))}
+          </Accessories>
+        )}
 
         <RetailPeriod>
           <CalendarIcon>

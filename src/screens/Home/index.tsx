@@ -75,6 +75,7 @@ export function Home() {
 
   useEffect(() => {
     let isMounted = true;
+    signOut();
 
     async function fetchCars() {
       try {
@@ -211,3 +212,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+function signOut() {
+  throw new Error('Function not implemented.');
+}
