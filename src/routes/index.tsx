@@ -11,7 +11,9 @@ export function Routes() {
   const { user, loading } = useAuth();
 
   return loading ? (
-    <LoadAnimated />
+    <>
+      <LoadAnimated />
+    </>
   ) : (
     <NavigationContainer>
       {user.id ? <AppTabRoutes /> : <AuthRoutes />}

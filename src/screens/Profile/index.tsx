@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
 import {
@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { useTheme } from 'styled-components';
 
@@ -161,13 +161,13 @@ export function Profile() {
     }
   }
 
-  useFocusEffect(() => {
+  useEffect(() => {
     if (user.token === '') {
       console.log('Usuário não logado...');
     } else {
       console.log('Usuário logado...');
     }
-  });
+  }, [user.token]);
 
   return (
     <KeyboardAvoidingView behavior="position">

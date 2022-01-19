@@ -9,7 +9,6 @@ import React, {
 import api from '../services/api';
 import { database } from '../database';
 import { User as ModelUser } from '../database/models/User';
-import { Alert } from 'react-native';
 
 interface User {
   id: string;
@@ -52,8 +51,10 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 function AuthProvider({ children }: AuthProviderProps) {
   const [data, setData] = useState<User>({} as User);
   const [loading, setLoading] = useState(true);
+  console.log('Passei aqui - AuthProvider');
 
   async function signIn({ email, password }: SignInCredentials) {
+    console.log('Passei aqui - signIn');
     try {
       const response = await api.post<AuthState>('/sessions', {
         email,
@@ -62,7 +63,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
       const { token, user } = response.data;
 
-      // api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
       const userCollection = database.get<ModelUser>('users');
       await database.write(async () => {
@@ -83,12 +84,16 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOut() {
+    console.log('passei aqui', data.id);
     try {
       const userCollection = database.get<ModelUser>('users');
       await database.write(async () => {
         const userSelected = await userCollection.find(data.id);
         userSelected.destroyPermanently;
+
+        await userCollection.database.unsafeResetDatabase();
       });
+      console.log('passei aqui', data.id);
       setData({} as User);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -130,23 +135,33 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     async function loadUserData() {
-      const userCollection = database.get<ModelUser>('users');
-      const response = await userCollection.query().fetch();
+      console.log('Passei aqui - LoadUser');
+      try {
+        const userCollection = database.get<ModelUser>('users');
+        const response = await userCollection.query().fetch();
+        console.log('Passei aqui -', response);
 
-      if (response.length > 0) {
-        const userData = response[0]._raw as unknown as User;
+        if (response.length > 0) {
+          const userData = response[0]._raw as unknown as User;
 
-        // api.defaults.headers.common[
-        //   'Authorization'
-        // ] = `Bearer ${userData.token}`;
+          api.defaults.headers.common[
+            'Authorization'
+          ] = `Bearer ${userData.token}`;
 
-        setData(userData);
+          console.log('Authorization', userData.token);
+
+          setData(userData);
+        }
+      } catch (error) {
+        throw new Error((error as Error).message);
+      } finally {
         setLoading(false);
       }
     }
 
+    console.log('Passei aqui - Acabei');
     loadUserData();
-  }, [data.token]);
+  }, []);
 
   return (
     <AuthContext.Provider

@@ -74,16 +74,17 @@ export function MyCars() {
         setLoading(false);
       }
     }
-    fetchCars();
-  }, []);
 
-  useFocusEffect(() => {
+    fetchCars();
+  }, [cars]);
+
+  useEffect(() => {
     if (user.token === '') {
       console.log('Usuário não logado...');
     } else {
       console.log('Usuário logado...');
     }
-  });
+  }, [user.token]);
 
   return (
     <Container>

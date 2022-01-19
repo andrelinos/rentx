@@ -20,19 +20,24 @@ import { Inter_400Regular, Inter_500Medium } from '@expo-google-fonts/inter';
 import theme from './src/styles/theme';
 
 import { Routes } from './src/routes';
-import api from './src/services/api';
+// import api from './src/services/api';
 
 export default function App() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
-  api.interceptors.request.use(config => {
-    const { token } = user;
+  // console.log(user);
 
-    if (token) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    }
-    return config;
-  });
+  // if (user) {
+  //   api.interceptors.request.use(config => {
+  //     const { token } = user;
+  //     console.log('User');
+
+  //     if (token) {
+  //       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  //     }
+  //     return config;
+  //   });
+  // }
 
   const [fontsLoaded] = useFonts({
     Archivo_400Regular,

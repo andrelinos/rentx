@@ -32,6 +32,8 @@ export function Home() {
   const [cars, setCars] = useState<ModelCar[]>([]);
   const [loading, setLoading] = useState(true);
 
+  console.log('Passei aqui - Home');
+
   const { user, signOut } = useAuth();
   const theme = useTheme();
   const navigation = useNavigation();
@@ -115,13 +117,13 @@ export function Home() {
     return () => backHandler.remove();
   });
 
-  useFocusEffect(() => {
+  useEffect(() => {
     if (user.token === '') {
       console.log('Usuário não logado...');
     } else {
       console.log('Usuário logado...');
     }
-  });
+  }, [user.token]);
 
   useEffect(() => {
     const syncChanges = async () => {
