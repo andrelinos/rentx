@@ -151,6 +151,7 @@ export function Profile() {
         avatar,
         token: user.token,
       });
+
       Alert.alert('Perfil atualizado com sucesso!');
     } catch (error) {
       if (error instanceof Yup.ValidationError) {

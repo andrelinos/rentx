@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { format, parseISO } from 'date-fns';
 
@@ -8,7 +8,6 @@ import { useAuth } from '../../hooks/auth';
 import { useTheme } from 'styled-components';
 
 import api from '../../services/api';
-import { CarDTO } from '../../dtos/CarDTO';
 import { Car as ModelCar } from '../../database/models/Car';
 
 import { Car } from '../../components/Car';
@@ -34,7 +33,6 @@ import {
 
 export interface CarProps {
   id: string;
-  user_id: string;
   car: ModelCar;
   start_date: string;
   end_date: string;

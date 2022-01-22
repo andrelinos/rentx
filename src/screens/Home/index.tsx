@@ -23,6 +23,7 @@ import { Car } from '../../components/Car';
 import { Car as ModelCar } from '../../database/models/Car';
 import { Header } from '../../components/Header';
 import { LoadAnimated } from '../../components/LoadAnimated';
+// import { LoadAnimated } from '@components/LoadAnimated';
 
 import { CarsList, Container } from './styles';
 
