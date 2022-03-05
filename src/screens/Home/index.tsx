@@ -33,8 +33,6 @@ export function Home() {
   const [cars, setCars] = useState<ModelCar[]>([]);
   const [loading, setLoading] = useState(true);
 
-  console.log('Passei aqui - Home');
-
   const { user, signOut } = useAuth();
   const theme = useTheme();
   const navigation = useNavigation();

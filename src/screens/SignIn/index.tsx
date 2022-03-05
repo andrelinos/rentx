@@ -21,8 +21,6 @@ export function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  console.log('Passei aqui - SignIn');
-
   const theme = useTheme();
   const navigation = useNavigation();
   const { signIn } = useAuth();

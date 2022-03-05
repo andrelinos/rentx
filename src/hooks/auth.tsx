@@ -51,10 +51,8 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 function AuthProvider({ children }: AuthProviderProps) {
   const [data, setData] = useState<User>({} as User);
   const [loading, setLoading] = useState(true);
-  console.log('Passei aqui - AuthProvider');
 
   async function signIn({ email, password }: SignInCredentials) {
-    console.log('Passei aqui - signIn');
     try {
       const response = await api.post<AuthState>('/sessions', {
         email,
@@ -84,7 +82,6 @@ function AuthProvider({ children }: AuthProviderProps) {
   }
 
   async function signOut() {
-    console.log('passei aqui', data.id);
     try {
       const userCollection = database.get<ModelUser>('users');
       await database.write(async () => {
@@ -93,7 +90,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 
         await userCollection.database.unsafeResetDatabase();
       });
-      console.log('passei aqui', data.id);
+
       setData({} as User);
     } catch (error) {
       throw new Error((error as Error).message);
@@ -135,11 +132,9 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     async function loadUserData() {
-      console.log('Passei aqui - LoadUser');
       try {
         const userCollection = database.get<ModelUser>('users');
         const response = await userCollection.query().fetch();
-        console.log('Passei aqui -', response);
 
         if (response.length > 0) {
           const userData = response[0]._raw as unknown as User;
@@ -147,8 +142,6 @@ function AuthProvider({ children }: AuthProviderProps) {
           api.defaults.headers.common[
             'Authorization'
           ] = `Bearer ${userData.token}`;
-
-          console.log('Authorization', userData.token);
 
           setData(userData);
         }
@@ -159,7 +152,6 @@ function AuthProvider({ children }: AuthProviderProps) {
       }
     }
 
-    console.log('Passei aqui - Acabei');
     loadUserData();
   }, []);
 
